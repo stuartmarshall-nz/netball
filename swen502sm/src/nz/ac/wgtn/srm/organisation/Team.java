@@ -39,6 +39,8 @@ public abstract class Team {
 		this.yearFormed = yearFormed;
 	}
 	
+	public abstract int currentSquadImpact();
+	
 	public abstract boolean addPlayer(Player p);
 
 }

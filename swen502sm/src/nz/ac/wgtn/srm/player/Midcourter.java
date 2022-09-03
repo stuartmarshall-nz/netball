@@ -4,9 +4,11 @@ import nz.ac.wgtn.srm.Country;
 
 public class Midcourter extends Player {
 
-	public Midcourter(String name, Country country, int age) {
+	private int speed;
+	
+	public Midcourter(String name, Country country, int age, int speed) {
 		super(name, country, age);
-		// TODO Auto-generated constructor stub
+		this.speed = speed;
 	}
 
 }

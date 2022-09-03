@@ -1,6 +1,6 @@
 package nz.ac.wgtn.srm;
 
-import java.util.ArrayList;
+import java.util.*;
 import nz.ac.wgtn.srm.player.*;
 
 public class PlayerList<E extends Player> extends ArrayList<E> {
@@ -9,6 +9,15 @@ public class PlayerList<E extends Player> extends ArrayList<E> {
 	public void summarise() {
 		super.forEach(p -> p.print());
 		return;
+	}
+	
+	public List<Player> select(int num) {
+		List<Player> bestPlayers = new ArrayList<Player>();
+		this.sort(new PlayerComparator());
+		for (int loop = 0; loop < num; loop++) {
+			bestPlayers.add(this.get(loop));
+		}
+		return bestPlayers;
 	}
 	
 }
