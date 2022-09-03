@@ -19,6 +19,7 @@ public class DatabaseReader {
 		this.teams = new HashMap<String, Team>();
 		this.inputFile = new File(filename);
 		this.scanner = new Scanner(this.inputFile);
+		this.scanner.useDelimiter(",|\n");
 	}
 
 	public boolean read() {
@@ -88,7 +89,7 @@ public class DatabaseReader {
 		} else {
 			return null;
 		}
-		
+		p.print();
 		return p;
 	}
 	
@@ -114,9 +115,11 @@ public class DatabaseReader {
 		for (int loop = 0; loop < numPlayers; loop++) {
 			String playerName = this.scanner.next();
 			Player p = this.players.get(playerName);
+			System.out.println("adding " + playerName);
 			t.addPlayer(p);
 		}
 		
+		t.print();
 		return t;
 	}
 	

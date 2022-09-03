@@ -79,4 +79,11 @@ public abstract class Team {
 		return impact;
 	}
 
+	public void print() {
+		System.out.println("Team\n====\nName: " + this.name);
+		System.out.println("Attackers: " + this.attackers.size());
+		System.out.println("Midcourters: " + this.midcourters.size());
+		System.out.println("Defenders: " + this.defenders.size());
+	}
+	
 }
