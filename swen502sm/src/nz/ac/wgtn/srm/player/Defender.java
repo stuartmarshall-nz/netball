@@ -10,4 +10,12 @@ public class Defender extends Player {
 		super(name, country, age);
 	}
 
+	public Defender(String name, Country country, int age, int intercepts, int skillLevel, int confidenceLevel,
+			int matches, int rebounds) {
+		super(name, country, age, intercepts, skillLevel, confidenceLevel, matches);
+		this.rebounds = rebounds;
+	}
+
+	
+	
 }

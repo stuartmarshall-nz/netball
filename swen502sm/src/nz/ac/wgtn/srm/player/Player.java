@@ -26,6 +26,23 @@ public class Player {
 		this.confidenceLevel = 5;
 	}
 
+	public Player(String name, Country country, int age, int intercepts, int skillLevel, int confidenceLevel,
+			int matches) {
+		super();
+		this.name = name;
+		this.country = country;
+		this.age = age;
+		this.intercepts = intercepts;
+		this.skillLevel = skillLevel;
+		this.confidenceLevel = confidenceLevel;
+		this.matches = matches;
+	}
+
+	public void incrementMatches() {
+		this.matches++;
+		this.checkForSkillChange();
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -62,10 +79,12 @@ public class Player {
 		}
 	}
 	
-	public void gainSkill() {
-		if (this.skillLevel < maxSkill) {
+	private boolean checkForSkillChange() {
+		if (((this.matches % 10) == 0) && (this.skillLevel < maxSkill)) {
 			this.skillLevel++;
+			return true;
 		}
+		return false;
 	}
 	
 	public int matchImpact() {

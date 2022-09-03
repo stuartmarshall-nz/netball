@@ -19,6 +19,8 @@ public class Match {
 	}
 	
 	public void simulate() {
+		int homeTeamImpact = this.home.currentSquadImpact();
+		int awayTeamImpact = this.away.currentSquadImpact();
 		return;
 	}
 

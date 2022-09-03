@@ -11,4 +11,16 @@ public class Midcourter extends Player {
 		this.speed = speed;
 	}
 
+	public Midcourter(String name, Country country, int age, int intercepts, int skillLevel, int confidenceLevel,
+			int matches, int speed) {
+		super(name, country, age, intercepts, skillLevel, confidenceLevel, matches);
+		this.speed = speed;
+	}
+
+	public Midcourter(String name, Country country, int age) {
+		super(name, country, age);
+	}
+
+	
+	
 }
