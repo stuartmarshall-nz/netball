@@ -13,15 +13,19 @@ public class Attacker extends Player {
 		this.shots = 0;
 	}
 
-	public Attacker(String name, Country country, int age, int intercepts, int skillLevel, int confidenceLevel,
+	public Attacker(String name, Country country, int age, Skill skillLevel, Confidence confidenceLevel,
 			int matches, int goals, int shots) {
-		super(name, country, age, intercepts, skillLevel, confidenceLevel, matches);
+		super(name, country, age, skillLevel, confidenceLevel, matches);
 		this.goals = goals;
 		this.shots = shots;
 	}
 	
 	public float shotAccuracy() {
-		return this.goals / this.shots;
+		if (this.shots > 0) {
+			return this.goals / this.shots;
+		} else {
+			return 0;
+		}
 	}
 	
 	public void addShots(int shots) {

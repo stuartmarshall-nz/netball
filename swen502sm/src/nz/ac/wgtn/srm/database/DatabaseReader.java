@@ -11,12 +11,14 @@ public class DatabaseReader {
 
 	private Map<String, Player> players;
 	private Map<String, Team> teams;
+	private List<Competition> competitions;
 	private File inputFile;
 	private Scanner scanner;
 	
 	public DatabaseReader(String filename) throws FileNotFoundException {
 		this.players = new HashMap<String, Player>();
 		this.teams = new HashMap<String, Team>();
+		this.competitions = new ArrayList<Competition>();
 		this.inputFile = new File(filename);
 		this.scanner = new Scanner(this.inputFile);
 		this.scanner.useDelimiter(",|\n");
@@ -30,6 +32,18 @@ public class DatabaseReader {
 		this.readTeams();
 		this.readCompetitions();
 		return true;
+	}
+	
+	public Collection<Player> getPlayers() {
+		return this.players.values();
+	}
+	
+	public Collection<Team> getTeams() {
+		return this.teams.values();
+	}
+	
+	public List<Competition> getCompetitions() {
+		return this.competitions;
 	}
 	
 	private void readPlayers() {
@@ -56,8 +70,10 @@ public class DatabaseReader {
 	
 	private void readCompetitions() {
 		int numComps = this.scanner.nextInt();
+		System.out.println("NumComps: " + numComps);
 		for (int loop = 0; loop < numComps; loop++) {
 			Competition c = this.readCompetition();
+			this.competitions.add(c);
 		}
 		return;
 	}
@@ -67,29 +83,34 @@ public class DatabaseReader {
 		
 		String type = this.scanner.next();
 		String name = this.scanner.next();
+		System.out.println("reading " + name);
 		String country = this.scanner.next();
 		int age = this.scanner.nextInt();
-		int intercepts = this.scanner.nextInt();
-		int skill = this.scanner.nextInt();
-		int confidence = this.scanner.nextInt();
 		int matches = this.scanner.nextInt();
+		String skillStr = this.scanner.next();
+		String confidenceStr = this.scanner.next();
 		
+		Skill skill = Skill.valueOf(skillStr);
+		Confidence confidence = Confidence.valueOf(confidenceStr);
 		Country c = Country.fromString(country);
 		
 		if (type.equals("Defender")) {
-			int rebounds = scanner.nextInt();
-			p = new Defender(name, c, age, intercepts, skill, confidence, matches, rebounds);
+			int intercepts = this.scanner.nextInt();
+			int rebounds = this.scanner.nextInt();
+			p = new Defender(name, c, age, skill, confidence, matches, intercepts, rebounds);
 		} else if (type.equals("Midcourter")) {
-			int speed = scanner.nextInt();
-			p = new Midcourter(name, c, age, intercepts, skill, confidence, matches, speed);
+			int intercepts = this.scanner.nextInt();
+			int speed = this.scanner.nextInt();
+			p = new Midcourter(name, c, age, skill, confidence, matches, intercepts, speed);
 		} else if (type.equals("Attacker")) {
-			int goals = scanner.nextInt();
-			int shots = scanner.nextInt();
-			p = new Attacker(name, c, age, intercepts, skill, confidence, matches, goals, shots);			
+			int goals = this.scanner.nextInt();
+			int shots = this.scanner.nextInt();
+			p = new Attacker(name, c, age, skill, confidence, matches, goals, shots);			
 		} else {
+			this.scanner.nextLine();
 			return null;
 		}
-		p.print();
+		
 		return p;
 	}
 	
@@ -109,22 +130,45 @@ public class DatabaseReader {
 		} else if (type.equals("Domestic")) {
 			t = new DomesticTeam(teamName, c, year);
 		} else {
+			this.scanner.nextLine();
 			return null;
 		}
 		
 		for (int loop = 0; loop < numPlayers; loop++) {
 			String playerName = this.scanner.next();
 			Player p = this.players.get(playerName);
-			System.out.println("adding " + playerName);
 			t.addPlayer(p);
 		}
-		
-		t.print();
+
 		return t;
 	}
 	
 	private Competition readCompetition() {
-		return null;
+		Competition c;
+		
+		String type = this.scanner.next();
+		String competitionName = this.scanner.next();
+		int cycle = this.scanner.nextInt();
+		int numTeams = this.scanner.nextInt();
+		
+		if (type.equals("Domestic")) {
+			String country = this.scanner.next();
+			Country loc = Country.fromString(country);
+			c = new Domestic(competitionName, loc, cycle);
+		} else if (type.equals("International")) {
+			c = new International(competitionName, cycle);
+		} else {
+			this.scanner.nextLine();
+			return null;
+		}
+		
+		for (int loop = 0; loop < numTeams; loop++) {
+			String teamName = this.scanner.next();
+			Team t = this.teams.get(teamName);
+			c.addTeam(t);
+		}
+		
+		return c;
 	}
 	
 }

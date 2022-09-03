@@ -1,6 +1,7 @@
 package nz.ac.wgtn.srm.organisation;
 
 import java.util.List;
+import java.math.*;
 
 import nz.ac.wgtn.srm.*;
 import nz.ac.wgtn.srm.player.*;
@@ -10,6 +11,8 @@ public abstract class Team {
 	private String name;
 	private Country location;
 	private int yearFormed;
+	private int wins;
+	private int losses;
 	protected PlayerList<Attacker> attackers;
 	protected PlayerList<Midcourter> midcourters;
 	protected PlayerList<Defender> defenders;
@@ -19,6 +22,8 @@ public abstract class Team {
 		this.name = name;
 		this.location = location;
 		this.yearFormed = yearFormed;
+		this.wins = 0;
+		this.losses = 0;
 		this.attackers = new PlayerList<Attacker>();
 		this.midcourters = new PlayerList<Midcourter>();
 		this.defenders = new PlayerList<Defender>();
@@ -41,6 +46,27 @@ public abstract class Team {
 		this.location = location;
 	}
 
+	public void recordWin() {
+		this.wins++;
+		this.currentSquad.forEach(p -> {
+			p.incrementMatches();
+			if (Math.random() > 0.9) {
+				p.gainConfidence();
+			}
+		});
+	}
+
+	public void recordLoss() {
+		this.losses++;
+		this.currentSquad.forEach(p -> {
+			p.incrementMatches();
+			if (Math.random() > 0.9) {
+				p.loseConfidence();
+			}
+		});
+
+	}
+	
 	public int getYearFormed() {
 		return yearFormed;
 	}
@@ -81,9 +107,16 @@ public abstract class Team {
 
 	public void print() {
 		System.out.println("Team\n====\nName: " + this.name);
+		System.out.println("Wins: " + this.wins);
+		System.out.println("Losses: " + this.losses);
 		System.out.println("Attackers: " + this.attackers.size());
 		System.out.println("Midcourters: " + this.midcourters.size());
 		System.out.println("Defenders: " + this.defenders.size());
+		if (this.currentSquad != null) {
+			System.out.print("Current Squad: ");
+			this.currentSquad.forEach(p -> p.print());
+			System.out.println("\nCurrent Squad Strength: " + this.currentSquadImpact() + "\n");
+		}
 	}
 	
 }

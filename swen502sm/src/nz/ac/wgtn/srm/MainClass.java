@@ -1,7 +1,10 @@
 package nz.ac.wgtn.srm;
 
 import nz.ac.wgtn.srm.database.*;
+import nz.ac.wgtn.srm.organisation.*;
+import nz.ac.wgtn.srm.event.*;
 import java.io.*;
+import java.util.*;
 
 public class MainClass {
 
@@ -24,7 +27,33 @@ public class MainClass {
 		
 		try {
 			DatabaseReader reader = new DatabaseReader(filename);
-			System.out.println(reader.read() ? "import successful" : "import unsuccessful");
+			System.out.println(reader.read() ? "import successful\n\n" : "import unsuccessful\n\n");
+			Collection<Team> teams = reader.getTeams();
+			List<Competition> competitions = reader.getCompetitions();
+			
+			for (Team t: teams) {
+				t.selectSquad();
+			}
+			
+			Competition c = competitions.get(0);
+			if (c instanceof Domestic) {
+				Domestic d = (Domestic)c;
+				List<Team> compTeams = c.getTeams();
+				compTeams.addAll(c.getTeams());
+				Season s = new Season(2022, 11, compTeams);
+				s.testSchedule();
+/*
+				s.schedule();
+				List<Match> matches = s.getMatches();
+				matches.forEach(m -> m.simulate());
+				s.print();
+*/
+			}
+/*		
+			for (Team t: teams) {
+				t.print();
+			}
+*/			
 		} catch (FileNotFoundException exp) {
 			exp.printStackTrace();
 		}

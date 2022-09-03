@@ -1,12 +1,15 @@
 package nz.ac.wgtn.srm.event;
 
+import nz.ac.wgtn.srm.*;
+
 public class Domestic extends Competition {
 
 	private Season latestSeason;
-	private String name;
+	private Country location;
 	
-	public Domestic(String name) {
-		
+	public Domestic(String name, Country location, int cycle) {
+		super(name, cycle);
+		this.location = location;
 	}
 	
 	public void updateSeason(Season newSeason) {
