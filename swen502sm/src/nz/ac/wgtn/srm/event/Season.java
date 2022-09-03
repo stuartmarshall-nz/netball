@@ -46,28 +46,38 @@ public class Season {
 		this.next = next;
 	}
 	
-	public void testSchedule() {
-		int rounds = 10;
-		int numTeams = 6;
-		boolean bye = false;
-		int[][] scheduled = new int[numTeams][numTeams];
-		for (int inner = 0; inner < numTeams; inner++) {
-			for (int outer = 0; outer < numTeams; outer++) {
+	public void schedule() {
+		LocalDate date = LocalDate.now();
+		boolean homeFirst = true;
+
+		int[][] scheduled = new int[this.numTeams][this.numTeams];
+		for (int inner = 0; inner < this.numTeams; inner++) {
+			for (int outer = 0; outer < this.numTeams; outer++) {
 				scheduled[inner][outer] = 0;
 			}
 		}
 		
 		System.out.println("scheduling " + rounds + " rounds of " + numTeams + " teams");
-		for (int round = 1; round <= rounds; round++) {
-			int loop = (round % numTeams) + 1;
-			int[] toSchedule = new int[numTeams];
-			toSchedule[0] = 1;
+		for (int round = 0; round < this.rounds; round++) {
+			int loop;
+			if (this.byeRound) {
+				loop = (round % (numTeams)) + 1;
+			} else {
+				loop = (round % (numTeams - 1)) + 1;
+			}
+			int[] toSchedule;
+			if (this.byeRound) {
+				toSchedule = new int[numTeams + 1];
+			} else {
+				toSchedule = new int[numTeams];
+			}
+			toSchedule[0] = 0;
 			int home, away;
 			for (int i = 1; i < loop; i++) {
-				toSchedule[i] = i + toSchedule.length - (loop - 1);
+				toSchedule[i] = i + toSchedule.length - (loop);
 			}
-			for (int i = loop; i < toSchedule.length; i++) {
-				toSchedule[i] = i - (loop - 2);
+			for (int i = (loop); i < toSchedule.length; i++) {
+				toSchedule[i] = i - (loop - 1);
 			}
 			
 			System.out.print("To schedule: ");
@@ -76,25 +86,55 @@ public class Season {
 			}
 			System.out.println();
 			
-			home = toSchedule[toSchedule.length - 1];
+			/*
+			home = toSchedule[toSchedule.length - 1];			
 			if (!bye) {
 				away = toSchedule[0];
 				System.out.println("round " + loop + ": " + home + " vs " + away);
-				scheduled[home - 1][away - 1]++;
-				scheduled[away - 1][home - 1]++;
+				Team t1 = this.teams.get(home);
+				Team t2 = this.teams.get(away);
+				System.out.println(t1.getName() + " - " + t2.getName());
+				Match match;
+				if (homeFirst) {
+					match = new Match(t1, t2, date);
+					scheduled[home][away]++;
+				} else {
+					match = new Match(t2, t1, date);
+					scheduled[away][home]++;
+				}
+				this.matches.add(match);
 			} else {
 				System.out.println("round " + loop + ": team " + home + " has a bye.");
 			}
+			*/
 
-			for (int index = 1; index < (toSchedule.length / 2); index++) {
-				int offset = bye ? 0 : 1;
+			for (int index = 0; index < (toSchedule.length / 2); index++) {
 				home = toSchedule[toSchedule.length - 1 - index];
-				away = toSchedule[index - 1 + offset];
-				System.out.println("round " + loop + ": " + home + " vs " + away);
-				scheduled[home - 1][away - 1]++;
-				scheduled[away - 1][home - 1]++;
+				away = toSchedule[index];
+				
+				if ((home < this.numTeams) && (away < this.numTeams)) {
+					System.out.println("round " + loop + ": " + home + " vs " + away);
+			
+					Team t1 = this.teams.get(home);
+					Team t2 = this.teams.get(away);
+					System.out.println(t1.getName() + " - " + t2.getName());
+
+					Match match;
+					if (homeFirst) {
+						match = new Match(t1, t2, date);
+						scheduled[home][away]++;
+					} else {
+						match = new Match(t2, t1, date);
+						scheduled[away][home]++;
+					}
+					this.matches.add(match);
+				} else {
+					System.out.println("Bye match");
+				}
+				
 			}
-		
+			homeFirst = !homeFirst;
+			date = date.plusWeeks(1);
 		}
 		
 		for (int inner = 0; inner < numTeams; inner++) {
@@ -103,43 +143,6 @@ public class Season {
 			}
 		}
 
-	}
-	
-	public void schedule() {
-		LocalDate date = LocalDate.now();
-		int offset = 1;
-		boolean homeFirst = true;
-		boolean advance = true;
-		for (int round = 0; round < this.rounds; round++) {
-			System.out.println("scheduling " + this.matchesPerRound + " matches for round " + round);
-			for (int matchup = 0; matchup < this.matchesPerRound; matchup++) {
-				int t1index = (matchup) % this.numTeams;
-				int t2index = ((matchup + 1) + offset) % this.numTeams;
-				Team t1 = this.teams.get(t1index);
-				Team t2 = this.teams.get(t2index);
-				Match match;
-				if (homeFirst) {
-					match = new Match(t1, t2, date);
-					System.out.println("scheduling: " + t1index + " vs " + t2index);
-				} else {
-					match = new Match(t2, t1, date);
-					System.out.println("scheduling: " + t2index + " vs " + t1index);
-				}
-				this.matches.add(match);
-			}
-			date = date.plusWeeks(1);
-			if (!byeRound || advance) {
-				offset++;
-			}
-			if (byeRound) {
-				advance = !advance;
-			}
-			
-			if (offset == this.numTeams) {
-				offset = 1;
-				homeFirst = !homeFirst;
-			}
-		}
 	}
 	
 	public List<Match> getMatches() {

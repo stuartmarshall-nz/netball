@@ -39,21 +39,18 @@ public class MainClass {
 			if (c instanceof Domestic) {
 				Domestic d = (Domestic)c;
 				List<Team> compTeams = c.getTeams();
-				compTeams.addAll(c.getTeams());
-				Season s = new Season(2022, 11, compTeams);
-				s.testSchedule();
-/*
+				Season s = new Season(2022, 6, compTeams);
+
 				s.schedule();
 				List<Match> matches = s.getMatches();
 				matches.forEach(m -> m.simulate());
 				s.print();
-*/
 			}
-/*		
+
 			for (Team t: teams) {
 				t.print();
 			}
-*/			
+
 		} catch (FileNotFoundException exp) {
 			exp.printStackTrace();
 		}

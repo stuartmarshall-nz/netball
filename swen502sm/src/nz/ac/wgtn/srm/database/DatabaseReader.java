@@ -70,7 +70,6 @@ public class DatabaseReader {
 	
 	private void readCompetitions() {
 		int numComps = this.scanner.nextInt();
-		System.out.println("NumComps: " + numComps);
 		for (int loop = 0; loop < numComps; loop++) {
 			Competition c = this.readCompetition();
 			this.competitions.add(c);
@@ -83,7 +82,6 @@ public class DatabaseReader {
 		
 		String type = this.scanner.next();
 		String name = this.scanner.next();
-		System.out.println("reading " + name);
 		String country = this.scanner.next();
 		int age = this.scanner.nextInt();
 		int matches = this.scanner.nextInt();
