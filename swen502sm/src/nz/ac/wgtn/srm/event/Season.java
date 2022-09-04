@@ -85,29 +85,7 @@ public class Season {
 				System.out.print(toSchedule[i] + ", ");
 			}
 			System.out.println();
-			
-			/*
-			home = toSchedule[toSchedule.length - 1];			
-			if (!bye) {
-				away = toSchedule[0];
-				System.out.println("round " + loop + ": " + home + " vs " + away);
-				Team t1 = this.teams.get(home);
-				Team t2 = this.teams.get(away);
-				System.out.println(t1.getName() + " - " + t2.getName());
-				Match match;
-				if (homeFirst) {
-					match = new Match(t1, t2, date);
-					scheduled[home][away]++;
-				} else {
-					match = new Match(t2, t1, date);
-					scheduled[away][home]++;
-				}
-				this.matches.add(match);
-			} else {
-				System.out.println("round " + loop + ": team " + home + " has a bye.");
-			}
-			*/
-
+	
 			for (int index = 0; index < (toSchedule.length / 2); index++) {
 				home = toSchedule[toSchedule.length - 1 - index];
 				away = toSchedule[index];
