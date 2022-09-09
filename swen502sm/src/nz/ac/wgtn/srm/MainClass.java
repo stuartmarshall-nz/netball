@@ -31,14 +31,14 @@ public class MainClass {
 			Collection<Team> teams = reader.getTeams();
 			List<Competition> competitions = reader.getCompetitions();
 			
-			for (Team t: teams) {
-				t.selectSquad();
-			}
-			
 			Competition c = competitions.get(0);
 			if (c instanceof Domestic) {
 				Domestic d = (Domestic)c;
 				List<Team> compTeams = c.getTeams();
+	
+				for (Team t: compTeams) {
+					t.selectSquad();
+				}
 				
 				d.newSeason(compTeams, 6);
 
