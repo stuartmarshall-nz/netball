@@ -8,14 +8,14 @@ import java.util.*;
 public class Player implements MatchListener {
 
 	private String name;
-	private Country country;
+	private String country;
 	private int age;
 	private Skill skillLevel;
 	private Confidence confidenceLevel;
 	private Set<Team> teams;
 	private int matches;
 	
-	public Player(String name, Country country, int age) {
+	public Player(String name, String country, int age) {
 		this.name = name;
 		this.country = country;
 		this.age = age;
@@ -25,7 +25,7 @@ public class Player implements MatchListener {
 		this.teams = new HashSet<Team>();
 	}
 
-	public Player(String name, Country country, int age, Skill skillLevel, Confidence confidenceLevel,
+	public Player(String name, String country, int age, Skill skillLevel, Confidence confidenceLevel,
 			int matches) {
 		super();
 		this.name = name;
@@ -64,7 +64,7 @@ public class Player implements MatchListener {
 		return name;
 	}
 
-	public Country getCountry() {
+	public String getCountry() {
 		return country;
 	}
 	

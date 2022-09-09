@@ -9,7 +9,7 @@ import nz.ac.wgtn.srm.event.*;
 public abstract class Team implements MatchListener {
 
 	private String name;
-	private Country location;
+	private String location;
 	private int yearFormed;
 	private int wins;
 	private int losses;
@@ -19,7 +19,7 @@ public abstract class Team implements MatchListener {
 	protected PlayerList<Player> currentSquad;
 	private Map<String, VersusRecord> record;
 	
-	public Team(String name, Country location, int yearFormed) {
+	public Team(String name, String location, int yearFormed) {
 		this.name = name;
 		this.location = location;
 		this.yearFormed = yearFormed;
@@ -40,11 +40,11 @@ public abstract class Team implements MatchListener {
 		this.name = name;
 	}
 
-	public Country getLocation() {
+	public String getLocation() {
 		return location;
 	}
 
-	public void setLocation(Country location) {
+	public void setLocation(String location) {
 		this.location = location;
 	}
 
@@ -118,6 +118,17 @@ public abstract class Team implements MatchListener {
 			this.currentSquad.forEach(p -> p.printLong());
 			System.out.println("\nCurrent Squad Strength: " + this.currentSquadImpact() + "\n");
 		}
+		System.out.println("Head to Head");
+		this.record.values().forEach(r -> r.print());
+	}
+	
+	public void printSummary() {
+		System.out.println("Team: " + this.name);
+		System.out.println("Wins: " + this.wins);
+		System.out.println("Losses: " + this.losses);
+		System.out.println("Attackers: " + this.attackers.size());
+		System.out.println("Midcourters: " + this.midcourters.size());
+		System.out.println("Defenders: " + this.defenders.size());
 		System.out.println("Head to Head");
 		this.record.values().forEach(r -> r.print());
 	}

@@ -7,13 +7,13 @@ public class Attacker extends Player {
 	private int shots;
 	private int goals;
 	
-	public Attacker(String name, Country country, int age) {
+	public Attacker(String name, String country, int age) {
 		super(name, country, age);
 		this.goals = 0;
 		this.shots = 0;
 	}
 
-	public Attacker(String name, Country country, int age, Skill skillLevel, Confidence confidenceLevel,
+	public Attacker(String name, String country, int age, Skill skillLevel, Confidence confidenceLevel,
 			int matches, int goals, int shots) {
 		super(name, country, age, skillLevel, confidenceLevel, matches);
 		this.goals = goals;

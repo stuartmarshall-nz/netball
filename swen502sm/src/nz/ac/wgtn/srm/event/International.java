@@ -6,6 +6,11 @@ public class International extends Competition {
 		super(name, start, cycle);
 	}
 	
+	// TODO implement getNumberCycles for International Competitions
+	public int getNumberCycles() {
+		return 0;
+	}
+	
 	public void print() {
 		return;
 	}

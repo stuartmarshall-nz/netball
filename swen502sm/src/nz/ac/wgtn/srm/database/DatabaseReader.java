@@ -13,27 +13,32 @@ public class DatabaseReader {
 
 	private Map<String, Player> players;
 	private Map<String, Team> teams;
-	private List<Competition> competitions;
-	private File inputFile;
+	private Set<Competition> competitions;
+	private File playersFile;
+	private File teamsFile;
+	private File competitionsFile;
 	private Scanner scanner;
 	
-	public DatabaseReader(String filename) throws FileNotFoundException {
+	public DatabaseReader(String players, String teams, String competitions) {
 		this.players = new HashMap<String, Player>();
 		this.teams = new HashMap<String, Team>();
-		this.competitions = new ArrayList<Competition>();
-		this.inputFile = new File(filename);
-		this.scanner = new Scanner(this.inputFile);
-		this.scanner.useDelimiter(",|\n");
+		this.competitions = new HashSet<Competition>();
+		
+		this.playersFile = new File(players);
+		this.teamsFile = new File(teams);
+		this.competitionsFile = new File(competitions);
 	}
 
 	public boolean read() {
-		if (this.scanner == null) {
+		try {
+			this.readPlayers();
+			this.readTeams();
+			this.readCompetitions();
+			return true;
+		} catch (FileNotFoundException exp) {
+			exp.printStackTrace();
 			return false;
 		}
-		this.readPlayers();
-		this.readTeams();
-		this.readCompetitions();
-		return true;
 	}
 	
 	public Collection<Player> getPlayers() {
@@ -44,38 +49,44 @@ public class DatabaseReader {
 		return this.teams.values();
 	}
 	
-	public List<Competition> getCompetitions() {
+	public Collection<Competition> getCompetitions() {
 		return this.competitions;
 	}
 	
-	private void readPlayers() {
-		int numPlayers = this.scanner.nextInt();
-		for (int loop = 0; loop < numPlayers; loop++) {
+	private void readPlayers() throws FileNotFoundException {
+		this.scanner = new Scanner(this.playersFile);
+		this.scanner.useDelimiter(",|\n");
+		while (scanner.hasNext()) {
 			Player p = this.readPlayer();
 			if (p != null) {
 				this.players.put(p.getName(), p);
 			}
 		}
+		this.scanner.close();
 		return;
 	}
 	
-	private void readTeams() {
-		int numTeams = this.scanner.nextInt();
-		for (int loop = 0; loop < numTeams; loop++) {
+	private void readTeams() throws FileNotFoundException {
+		this.scanner = new Scanner(this.teamsFile);
+		this.scanner.useDelimiter(",|\n");
+		while (this.scanner.hasNext()) {
 			Team t = this.readTeam();
 			if (t != null) {
 				this.teams.put(t.getName(), t);
 			}
 		}
+		this.scanner.close();
 		return;
 	}
 	
-	private void readCompetitions() {
-		int numComps = this.scanner.nextInt();
-		for (int loop = 0; loop < numComps; loop++) {
+	private void readCompetitions() throws FileNotFoundException {
+		this.scanner = new Scanner(this.competitionsFile);
+		this.scanner.useDelimiter(",|\n");
+		while (this.scanner.hasNext()) {
 			Competition c = this.readCompetition();
 			this.competitions.add(c);
 		}
+		this.scanner.close();
 		return;
 	}
 	
@@ -92,20 +103,19 @@ public class DatabaseReader {
 		
 		Skill skill = Skill.valueOf(skillStr);
 		Confidence confidence = Confidence.valueOf(confidenceStr);
-		Country c = Country.fromString(country);
 		
 		if (type.equals("Defender")) {
 			int intercepts = this.scanner.nextInt();
 			int rebounds = this.scanner.nextInt();
-			p = new Defender(name, c, age, skill, confidence, matches, intercepts, rebounds);
+			p = new Defender(name, country, age, skill, confidence, matches, intercepts, rebounds);
 		} else if (type.equals("Midcourter")) {
 			int intercepts = this.scanner.nextInt();
 			int speed = this.scanner.nextInt();
-			p = new Midcourter(name, c, age, skill, confidence, matches, intercepts, speed);
+			p = new Midcourter(name, country, age, skill, confidence, matches, intercepts, speed);
 		} else if (type.equals("Attacker")) {
 			int goals = this.scanner.nextInt();
 			int shots = this.scanner.nextInt();
-			p = new Attacker(name, c, age, skill, confidence, matches, goals, shots);			
+			p = new Attacker(name, country, age, skill, confidence, matches, goals, shots);			
 		} else {
 			this.scanner.nextLine();
 			return null;
@@ -119,27 +129,25 @@ public class DatabaseReader {
 		
 		String type = scanner.next();
 		String teamName = scanner.next();
-		String location = scanner.next();
 		int year = scanner.nextInt();
-		int numPlayers = scanner.nextInt();
-		
-		Country c = Country.fromString(location);
 		
 		if (type.equals("International")) {
-			t = new InternationalTeam(teamName, c, year);
+			String nickname = scanner.next();
+			t = new InternationalTeam(teamName, nickname, year);
 		} else if (type.equals("Domestic")) {
-			t = new DomesticTeam(teamName, c, year);
+			String location = scanner.next();
+			int numPlayers = scanner.nextInt();
+			t = new DomesticTeam(teamName, location, year);
+			for (int loop = 0; loop < numPlayers; loop++) {
+				String playerName = this.scanner.next();
+				Player p = this.players.get(playerName);
+				t.addPlayer(p);
+			}
 		} else {
 			this.scanner.nextLine();
 			return null;
 		}
 		
-		for (int loop = 0; loop < numPlayers; loop++) {
-			String playerName = this.scanner.next();
-			Player p = this.players.get(playerName);
-			t.addPlayer(p);
-		}
-
 		return t;
 	}
 	
@@ -153,8 +161,7 @@ public class DatabaseReader {
 		
 		if (type.equals("Domestic")) {
 			String country = this.scanner.next();
-			Country loc = Country.fromString(country);
-			c = new Domestic(competitionName, cycle, loc);
+			c = new Domestic(competitionName, cycle, country);
 		} else if (type.equals("International")) {
 			c = new International(competitionName, LocalDate.now().getYear(), cycle);
 		} else {

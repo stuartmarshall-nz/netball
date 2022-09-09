@@ -8,8 +8,10 @@ public enum Country {
 			return NEW_ZEALAND;
 		} else if (str.equals("Australia")) {
 			return AUSTRALIA;
-		} else if (str.equals("ENGLAND")) {
+		} else if (str.equals("England")) {
 			return ENGLAND;
+		} else if (str.equals("Jamaica")) {
+			return JAMAICA;
 		} else {
 			return OTHER;
 		}

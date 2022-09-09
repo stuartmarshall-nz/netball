@@ -5,8 +5,10 @@ import nz.ac.wgtn.srm.player.*;
 
 public class InternationalTeam extends Team {
 	
-	public InternationalTeam(String name, Country location, int yearFormed) {
-		super(name, location, yearFormed);
+	private String nickname;
+	
+	public InternationalTeam(String name, String nickname, int yearFormed) {
+		super(name, name, yearFormed);
 	}
 
 	public boolean isValidPlayer(Player player) {

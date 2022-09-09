@@ -1,6 +1,7 @@
 package nz.ac.wgtn.srm;
 
 import nz.ac.wgtn.srm.database.*;
+import nz.ac.wgtn.srm.player.*;
 import nz.ac.wgtn.srm.organisation.*;
 import nz.ac.wgtn.srm.ui.MainWindow;
 import nz.ac.wgtn.srm.event.*;
@@ -18,48 +19,30 @@ public class MainClass {
 			System.out.println("arg[" + index + "] : " + args[index]);
 		}
 
-		String filename;
+		String playersFileName = "data/players.csv";
+		String teamsFileName = "data/teams.csv";
+		String competitionsFileName = "data/competitions.csv";
 		
+		/*
 		if (args.length > 0) {
 			filename = args[0];
 		} else {
 			filename = "netball_db.csv";
 		}
+		*/
+
+		DatabaseReader reader = new DatabaseReader(playersFileName, teamsFileName, competitionsFileName);
+		System.out.println(reader.read() ? "import successful\n\n" : "import unsuccessful\n\n");
 		
-		try {
-			DatabaseReader reader = new DatabaseReader(filename);
-			System.out.println(reader.read() ? "import successful\n\n" : "import unsuccessful\n\n");
-			Collection<Team> teams = reader.getTeams();
-			List<Competition> competitions = reader.getCompetitions();
+		Collection<Player> players = reader.getPlayers();
+		Collection<Team> teams = reader.getTeams();
+		Collection<Competition> competitions = reader.getCompetitions();
 			
-			Competition c = competitions.get(0);
-			if (c instanceof Domestic) {
-				Domestic d = (Domestic)c;
-				List<Team> compTeams = c.getTeams();
-	
-				for (Team t: compTeams) {
-					t.selectSquad();
-				}
-				
-				d.newSeason(compTeams, 6);
+		Scheduler scheduler = new Scheduler(players, teams, competitions);
+		scheduler.schedule();
 
-				List<Match> matches = d.getMatches(1);
-				matches.forEach(m -> {
-					m.addMatchListener(MainWindow.getInstance());
-					m.simulate();
-				});
-
-				c.print();
-			}
-
-			/*
-			for (Team t: teams) {
-				t.print();
-			}
-			*/
-
-		} catch (FileNotFoundException exp) {
-			exp.printStackTrace();
+		for (Team t: teams) {
+			t.printSummary();
 		}
 	}
 

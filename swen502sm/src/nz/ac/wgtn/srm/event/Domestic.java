@@ -7,9 +7,9 @@ import java.util.*;
 public class Domestic extends Competition {
 
 	private List<Season> seasons;
-	private Country location;
+	private String location;
 	
-	public Domestic(String name, int start, Country location) {
+	public Domestic(String name, int start, String location) {
 		super(name, start, 1);
 		this.location = location;
 		this.seasons = new ArrayList<Season>();
@@ -28,6 +28,10 @@ public class Domestic extends Competition {
 		} else {
 			return null;
 		}
+	}
+	
+	public int getNumberCycles() {
+		return this.seasons.size();
 	}
 	
 	public void print() {
