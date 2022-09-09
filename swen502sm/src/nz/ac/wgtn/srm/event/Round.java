@@ -28,12 +28,9 @@ public class Round {
 			home = toSchedule[toSchedule.length - 1 - index];
 			away = toSchedule[index];
 			
-			if ((home < numTeams) && (away < numTeams)) {
-				System.out.println("round " + this.roundNum + ": " + home + " vs " + away);
-		
+			if ((home < numTeams) && (away < numTeams)) {		
 				Team t1 = teams.get(home);
 				Team t2 = teams.get(away);
-				System.out.println(t1.getName() + " - " + t2.getName());
 
 				Match match;
 				if (homeFirst) {
@@ -42,10 +39,7 @@ public class Round {
 					match = new Match(t2, t1, date);
 				}
 				this.matches.add(match);
-			} else {
-				System.out.println("Bye match");
-			}
-			
+			} 
 		}
 
 		return;
