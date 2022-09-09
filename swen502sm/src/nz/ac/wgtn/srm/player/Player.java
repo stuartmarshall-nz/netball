@@ -1,14 +1,18 @@
 package nz.ac.wgtn.srm.player;
 
 import nz.ac.wgtn.srm.*;
+import nz.ac.wgtn.srm.event.*;
+import nz.ac.wgtn.srm.organisation.*;
+import java.util.*;
 
-public class Player {
+public class Player implements MatchListener {
 
 	private String name;
 	private Country country;
 	private int age;
 	private Skill skillLevel;
 	private Confidence confidenceLevel;
+	private Set<Team> teams;
 	private int matches;
 	
 	public Player(String name, Country country, int age) {
@@ -18,6 +22,7 @@ public class Player {
 		this.matches = 0;
 		this.skillLevel = Skill.ROOKIE;
 		this.confidenceLevel = Confidence.MEDIUM;
+		this.teams = new HashSet<Team>();
 	}
 
 	public Player(String name, Country country, int age, Skill skillLevel, Confidence confidenceLevel,
@@ -29,9 +34,28 @@ public class Player {
 		this.skillLevel = skillLevel;
 		this.confidenceLevel = confidenceLevel;
 		this.matches = matches;
+		this.teams = new HashSet<Team>();
+	}
+	
+	public void notifyMatchResult(Match match) {
+		this.incrementMatches();
+		Team winningTeam = match.getWinningTeam();
+		if (this.teams.contains(winningTeam)) {
+			if (Math.random() > 0.9) {
+				this.gainConfidence();
+			}
+		} else {
+			if (Math.random() > 0.9) {
+				this.loseConfidence();
+			}
+		}
+	}
+	
+	public void addTeam(Team newTeam) {
+		this.teams.add(newTeam);
 	}
 
-	public void incrementMatches() {
+	private void incrementMatches() {
 		this.matches++;
 		this.checkForSkillChange();
 	}
@@ -82,8 +106,12 @@ public class Player {
 		return this.confidenceLevel.getValue() + this.skillLevel.getValue();
 	}
 	
-	public void print() {
-		System.out.println("Player\n======\nName: " + this.name);
+	public void printShort() {
+		System.out.println(this.name + "(" + this.skillLevel + "/" + this.confidenceLevel + ")");
+	}
+	
+	public void printLong() {
+		System.out.println("Name: " + this.name);
 		System.out.println("Age: " + this.age);
 		System.out.println("Skill Level: " + this.skillLevel);
 		System.out.println("Confidence Level: " + this.confidenceLevel);

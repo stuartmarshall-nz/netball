@@ -2,6 +2,7 @@ package nz.ac.wgtn.srm;
 
 import nz.ac.wgtn.srm.database.*;
 import nz.ac.wgtn.srm.organisation.*;
+import nz.ac.wgtn.srm.ui.MainWindow;
 import nz.ac.wgtn.srm.event.*;
 import java.io.*;
 import java.util.*;
@@ -43,13 +44,19 @@ public class MainClass {
 				d.newSeason(compTeams, 6);
 
 				List<Match> matches = d.getMatches(1);
-				matches.forEach(m -> m.simulate());
+				matches.forEach(m -> {
+					m.addMatchListener(MainWindow.getInstance());
+					m.simulate();
+				});
+
 				c.print();
 			}
 
+			/*
 			for (Team t: teams) {
 				t.print();
 			}
+			*/
 
 		} catch (FileNotFoundException exp) {
 			exp.printStackTrace();

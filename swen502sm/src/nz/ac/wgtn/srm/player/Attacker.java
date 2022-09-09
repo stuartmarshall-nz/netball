@@ -36,9 +36,9 @@ public class Attacker extends Player {
 		this.goals += goals;
 	}
 	
-	public void print() {
-		super.print();
-		System.out.println("Goals: " + goals + " / " + this.shots + " (" + this.shotAccuracy() + ")");
+	public void printLong() {
+		super.printLong();
+//		System.out.println("Goals: " + goals + " / " + this.shots + " (" + this.shotAccuracy() + ")");
 	}
 
 }

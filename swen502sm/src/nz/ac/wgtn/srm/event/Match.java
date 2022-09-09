@@ -1,17 +1,23 @@
-package nz.ac.wgtn.srm;
+package nz.ac.wgtn.srm.event;
 
 import nz.ac.wgtn.srm.organisation.*;
 import java.time.LocalDate;
-import java.math.*;
+import java.util.*;
+import nz.ac.wgtn.srm.ui.*;
 
 public class Match {
 
 	private LocalDate date;
 	private Team home;
 	private Team away;
+	private Team winning;
+	private Team losing;
+	private boolean played;
+	private boolean homeTeamWin;
 	private int homeScore;
 	private int awayScore;
 	private boolean overtimeResult;
+	private List<MatchListener> listeners;
 	
 	public Match(Team home, Team away, LocalDate date) {
 		this.home = home;
@@ -19,10 +25,32 @@ public class Match {
 		this.date = date;
 		this.homeScore = 0;
 		this.awayScore = 0;
+		this.played = false;
 		this.overtimeResult = false;
+		this.listeners = new ArrayList<MatchListener>();
+		this.listeners.add(home);
+		this.listeners.add(away);
+	}
+	
+	public void addMatchListener(MatchListener listener) {
+		this.listeners.add(listener);
+	}
+	
+	public boolean isHomeTeamWin() {
+		return this.homeTeamWin;
+	}
+	
+	public boolean isPlayed() {
+		return this.played;
 	}
 	
 	public void simulate() {
+		this.home.selectSquad();
+		this.away.selectSquad();
+
+		this.home.getCurrentSquad().forEach(p -> this.listeners.add(p));
+		this.away.getCurrentSquad().forEach(p -> this.listeners.add(p));
+
 		int homeTeamImpact = this.home.currentSquadImpact();
 		int awayTeamImpact = this.away.currentSquadImpact();
 		
@@ -36,15 +64,32 @@ public class Match {
 			} else
 				this.awayScore++;
 		}
-		
 		if (this.homeScore > this.awayScore) {
-			this.home.recordWin();
-			this.away.recordLoss();
+			this.homeTeamWin = true;
+			this.winning = this.home;
+			this.losing = this.away;
 		} else {
-			this.home.recordLoss();
-			this.away.recordWin();
+			this.homeTeamWin = false;
+			this.winning = away;
+			this.losing = home;
 		}
+		this.played = true;
+	
+		this.notifyMatchListeners();
+		
 		return;
+	}
+	
+	private void notifyMatchListeners() {
+		this.listeners.forEach(l -> l.notifyMatchResult(this));
+	}
+	
+	public Team getWinningTeam() {
+		return this.winning;
+	}
+	
+	public Team getLosingTeam() {
+		return this.losing;
 	}
 
 	public Team getHome() {

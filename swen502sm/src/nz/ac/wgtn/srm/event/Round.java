@@ -21,7 +21,7 @@ public class Round {
 		return this.matches;
 	}
 	
-	public void schedule(List<Team> teams, int[] toSchedule, boolean homeFirst) {
+	public void schedule(List<Team> teams, Ladder ladder, int[] toSchedule, boolean homeFirst) {
 		int numTeams = teams.size();
 		int home, away;
 		for (int index = 0; index < (toSchedule.length / 2); index++) {
@@ -38,6 +38,7 @@ public class Round {
 				} else {
 					match = new Match(t2, t1, date);
 				}
+				match.addMatchListener(ladder);
 				this.matches.add(match);
 			} 
 		}

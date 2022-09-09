@@ -1,12 +1,12 @@
 package nz.ac.wgtn.srm.organisation;
 
-import java.util.List;
-import java.math.*;
+import java.util.*;
 
 import nz.ac.wgtn.srm.*;
 import nz.ac.wgtn.srm.player.*;
+import nz.ac.wgtn.srm.event.*;
 
-public abstract class Team {
+public abstract class Team implements MatchListener {
 
 	private String name;
 	private Country location;
@@ -17,6 +17,7 @@ public abstract class Team {
 	protected PlayerList<Midcourter> midcourters;
 	protected PlayerList<Defender> defenders;
 	protected PlayerList<Player> currentSquad;
+	private Map<String, VersusRecord> record;
 	
 	public Team(String name, Country location, int yearFormed) {
 		this.name = name;
@@ -28,6 +29,7 @@ public abstract class Team {
 		this.midcourters = new PlayerList<Midcourter>();
 		this.defenders = new PlayerList<Defender>();
 		this.currentSquad = new PlayerList<Player>();
+		this.record = new HashMap<String, VersusRecord>();
 	}
 
 	public String getName() {
@@ -46,27 +48,21 @@ public abstract class Team {
 		this.location = location;
 	}
 
-	public void recordWin() {
-		this.wins++;
-		this.currentSquad.forEach(p -> {
-			p.incrementMatches();
-			if (Math.random() > 0.9) {
-				p.gainConfidence();
-			}
-		});
+	private void recordResult(String opposition, boolean win) {
+		VersusRecord versus = this.record.get(opposition);
+		if (versus == null) {
+			versus = new VersusRecord(this.name, opposition);
+			this.record.put(opposition, versus);
+		}
+		if (win) {
+			versus.incrementWins();
+			this.wins++;
+		} else {
+			versus.incrementLosses();
+			this.losses++;
+		}
 	}
 
-	public void recordLoss() {
-		this.losses++;
-		this.currentSquad.forEach(p -> {
-			p.incrementMatches();
-			if (Math.random() > 0.9) {
-				p.loseConfidence();
-			}
-		});
-
-	}
-	
 	public int getYearFormed() {
 		return yearFormed;
 	}
@@ -83,6 +79,7 @@ public abstract class Team {
 		} else if (player instanceof Attacker) {
 			this.attackers.add((Attacker)player);
 		}
+		player.addTeam(this);
 		return true;
 	}
 
@@ -104,6 +101,10 @@ public abstract class Team {
 		}
 		return impact;
 	}
+	
+	public List<Player> getCurrentSquad() {
+		return this.currentSquad;
+	}
 
 	public void print() {
 		System.out.println("Team\n====\nName: " + this.name);
@@ -113,10 +114,26 @@ public abstract class Team {
 		System.out.println("Midcourters: " + this.midcourters.size());
 		System.out.println("Defenders: " + this.defenders.size());
 		if (this.currentSquad != null) {
-			System.out.print("Current Squad: ");
-			this.currentSquad.forEach(p -> p.print());
+			System.out.println("Current Squad: ");
+			this.currentSquad.forEach(p -> p.printLong());
 			System.out.println("\nCurrent Squad Strength: " + this.currentSquadImpact() + "\n");
 		}
+		System.out.println("Head to Head");
+		this.record.values().forEach(r -> r.print());
+	}
+	
+	public void notifyMatchResult(Match match) {
+		Team winningTeam = match.getWinningTeam();
+		Team losingTeam = match.getLosingTeam();
+		if (this.equals(winningTeam)) {
+			this.recordResult(losingTeam.name, true);
+		} else {
+			this.recordResult(winningTeam.name, false);
+		}
+	}
+	
+	public boolean equals(Team t) {
+		return this.name.equals(t.getName());
 	}
 	
 }

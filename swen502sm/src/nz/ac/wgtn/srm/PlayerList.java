@@ -7,7 +7,7 @@ public class PlayerList<E extends Player> extends ArrayList<E> {
 	private static final long serialVersionUID = 1;
 	
 	public void summarise() {
-		super.forEach(p -> p.print());
+		super.forEach(p -> p.printLong());
 		return;
 	}
 	
