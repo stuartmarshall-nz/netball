@@ -5,7 +5,7 @@ import nz.ac.wgtn.srm.*;
 import java.time.*;
 import java.util.*;
 
-public class Season {
+public class Season extends Cycle {
 
 	private Season previous;
 	private Season next;
