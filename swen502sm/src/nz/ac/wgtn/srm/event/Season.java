@@ -6,43 +6,22 @@ import java.time.*;
 import java.util.*;
 
 public class Season extends Cycle {
-
-	private Season previous;
-	private Season next;
 	
-	private int year;
-	private Team champion;
 	private int numRounds;
 	private int numTeams;
-	private int matchesPerRound;
 	
 	private List<Team> teams;
 	private List<Round> rounds;
 	
-	public Season(int year, int numRounds, List<Team> teams) {
+	public Season(List<Team> teams, int year, int numRounds) {
+		super(teams, year);
 		this.teams = teams;
 		this.rounds = new ArrayList<Round>();
 		this.numTeams = this.teams.size();
-		this.matchesPerRound = this.numTeams / 2;
 		this.numRounds = numRounds;
-		this.year = year;
+		this.schedule();
 	}
 
-	public Season getPrevious() {
-		return previous;
-	}
-
-	public void setPrevious(Season previous) {
-		this.previous = previous;
-	}
-
-	public Season getNext() {
-		return next;
-	}
-
-	public void setNext(Season next) {
-		this.next = next;
-	}
 	
 	private int[] createOrder(int offset, boolean containsBye) {
 		int[] toSchedule;
@@ -97,7 +76,7 @@ public class Season extends Cycle {
 	}
 	
 	public void print() {
-		System.out.println(this.year + " Season\n===========");
+		System.out.println(getYear() + " Season\n===========");
 		this.getMatches().forEach(m -> m.print());
 		System.out.println("=====\n");
 	}

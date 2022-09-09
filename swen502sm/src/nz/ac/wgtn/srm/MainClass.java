@@ -39,12 +39,12 @@ public class MainClass {
 			if (c instanceof Domestic) {
 				Domestic d = (Domestic)c;
 				List<Team> compTeams = c.getTeams();
-				Season s = new Season(2022, 6, compTeams);
+				
+				d.newSeason(compTeams, 6);
 
-				s.schedule();
-				List<Match> matches = s.getMatches();
+				List<Match> matches = d.getMatches(1);
 				matches.forEach(m -> m.simulate());
-				s.print();
+				c.print();
 			}
 
 			for (Team t: teams) {

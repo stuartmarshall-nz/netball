@@ -1,13 +1,55 @@
 package nz.ac.wgtn.srm.event;
 
+import java.util.*;
+import nz.ac.wgtn.srm.organisation.*;
+
 public abstract class Cycle {
 
-	private Cycle previous;
-	private Cycle next;
+	private boolean completed;
+	private int year;
+	private boolean scheduled;
+	private Team champion;
+	private List<Team> teams; 
 	
-	public Cycle() {
-		this.previous = null;
-		this.next = null;
+	protected Cycle(List<Team> teams, int year) {
+		this.year = year;
+		this.completed = false;
+		this.scheduled = false;
+		this.champion = null;
+		this.teams = teams;
 	}
+	
+	public boolean isCompleted() {
+		return completed;
+	}
+
+	public void setCompleted(boolean completed) {
+		this.completed = completed;
+	}
+
+	public boolean isScheduled() {
+		return scheduled;
+	}
+
+	public void setScheduled(boolean scheduled) {
+		this.scheduled = scheduled;
+	}
+
+	public List<Team> getTeams() {
+		return this.teams;
+	}
+
+	public int getYear() {
+		return this.year;
+	}
+	
+	public Team getChampion() {
+		return this.champion;
+	}
+
+	public void setChampion(Team champion) {
+		this.champion = champion;
+	}
+	
 
 }

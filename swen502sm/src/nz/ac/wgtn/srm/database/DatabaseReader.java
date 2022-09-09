@@ -1,11 +1,13 @@
 package nz.ac.wgtn.srm.database;
 
 import java.io.*;
+
 import java.util.*;
 import nz.ac.wgtn.srm.player.*;
 import nz.ac.wgtn.srm.event.*;
 import nz.ac.wgtn.srm.organisation.*;
 import nz.ac.wgtn.srm.*;
+import java.time.LocalDate;
 
 public class DatabaseReader {
 
@@ -152,9 +154,9 @@ public class DatabaseReader {
 		if (type.equals("Domestic")) {
 			String country = this.scanner.next();
 			Country loc = Country.fromString(country);
-			c = new Domestic(competitionName, loc, cycle);
+			c = new Domestic(competitionName, cycle, loc);
 		} else if (type.equals("International")) {
-			c = new International(competitionName, cycle);
+			c = new International(competitionName, LocalDate.now().getYear(), cycle);
 		} else {
 			this.scanner.nextLine();
 			return null;

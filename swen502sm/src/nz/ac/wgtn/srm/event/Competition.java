@@ -3,15 +3,17 @@ package nz.ac.wgtn.srm.event;
 import java.util.*;
 import nz.ac.wgtn.srm.organisation.*;
 
-public class Competition {
+public abstract class Competition {
 
 	private String name;
+	private int started;
 	private int frequency;
 	private Cycle first;
 	private List<Team> teams;
 	
-	public Competition(String name, int frequency) {
+	public Competition(String name, int started, int frequency) {
 		this.name = name;
+		this.started = started;
 		this.frequency = frequency;
 		this.teams = new ArrayList<Team>();
 	}
@@ -31,5 +33,11 @@ public class Competition {
 	public List<Team> getTeams() {
 		return this.teams;
 	}
+	
+	public int getYearStarted() {
+		return this.started;
+	}
+	
+	public abstract void print();
 	
 }
