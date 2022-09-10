@@ -6,6 +6,7 @@ import nz.ac.wgtn.srm.event.*;
 import nz.ac.wgtn.srm.organisation.*;
 import nz.ac.wgtn.srm.player.*;
 import nz.ac.wgtn.srm.ui.*;
+import nz.ac.wgtn.srm.database.*;
 
 public class Scheduler {
 
@@ -33,6 +34,7 @@ public class Scheduler {
 			List<Match> matches = d.getMatches(loop + 1);
 			matches.forEach(m -> {
 				m.addMatchListener(MainWindow.getInstance());
+				m.addMatchListener(DatabaseWriter.getInstance());
 				m.simulate();
 			});
 		}

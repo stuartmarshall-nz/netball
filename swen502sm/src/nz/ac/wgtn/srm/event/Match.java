@@ -1,6 +1,7 @@
 package nz.ac.wgtn.srm.event;
 
 import nz.ac.wgtn.srm.organisation.*;
+import java.io.*;
 import java.time.LocalDate;
 import java.util.*;
 import nz.ac.wgtn.srm.ui.*;
@@ -132,13 +133,13 @@ public class Match {
 		this.overtimeResult = overtimeResult;
 	}
 	
-	public void print() {
-		System.out.print("Month: " + this.date.getMonthValue() + ", ");
-		System.out.print(this.home.getName() + " " + this.homeScore + ":" + this.awayScore + " " + this.away.getName());
+	public void print(PrintStream out) {
+		out.print("Month: " + this.date.getMonthValue() + ", ");
+		out.print(this.home.getName() + " " + this.homeScore + ":" + this.awayScore + " " + this.away.getName());
 		if (this.overtimeResult) {
-			System.out.print("(overtime)");
+			out.print("(overtime)");
 		}
-		System.out.println();
+		out.println();
 	}
 
 }

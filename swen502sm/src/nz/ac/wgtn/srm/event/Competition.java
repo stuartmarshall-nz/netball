@@ -7,7 +7,6 @@ public abstract class Competition {
 
 	private String name;
 	private int started;
-	private int numRun;
 	private int frequency;
 	private List<Cycle> cycles;
 	private List<Team> teams;
