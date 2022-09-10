@@ -82,7 +82,7 @@ public class Match {
 	}
 	
 	private void notifyMatchListeners() {
-		this.listeners.forEach(l -> l.notifyMatchResult(this));
+		this.listeners.forEach(l -> l.matchResultEvent(this));
 	}
 	
 	public Team getWinningTeam() {

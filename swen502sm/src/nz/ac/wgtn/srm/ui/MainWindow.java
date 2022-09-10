@@ -8,7 +8,7 @@ import javafx.application.*;
 import javafx.scene.layout.*;
 import javafx.geometry.*;
 
-public class MainWindow extends Application implements MatchListener {
+public class MainWindow extends Application implements MatchListener, CompetitionListener {
 
 	private static MainWindow instance;
 	
@@ -42,13 +42,13 @@ public class MainWindow extends Application implements MatchListener {
 		
 	}
 	
-	public void notifyMatchResult(Match match) {
-		String homeTeam = match.getHome().getName();
-		String awayTeam = match.getHome().getName();
-		boolean homeWin = match.isHomeTeamWin();
-		int homeScore = match.getHomeScore();
-		int awayScore = match.getAwayScore();
+	public void matchResultEvent(Match match) {
 		match.print(System.out);		
+	}
+
+	@Override
+	public void competitionResultEvent(Cycle cycle) {
+		cycle.print(System.out);
 	}
 
 }

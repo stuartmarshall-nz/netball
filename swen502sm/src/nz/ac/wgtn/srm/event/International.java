@@ -1,5 +1,7 @@
 package nz.ac.wgtn.srm.event;
 
+import java.io.*;
+
 public class International extends Competition {
 
 	public International(String name, int start, int cycle) {
@@ -11,7 +13,7 @@ public class International extends Competition {
 		return 0;
 	}
 	
-	public void print() {
+	public void print(PrintStream out) {
 		return;
 	}
 

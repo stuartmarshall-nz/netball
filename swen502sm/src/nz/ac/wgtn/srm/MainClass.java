@@ -23,16 +23,6 @@ public class MainClass {
 		String teamsFileName = "data/teams.csv";
 		String competitionsFileName = "data/competitions.csv";
 		
-		/*
-		if (args.length > 0) {
-			filename = args[0];
-		} else {
-			filename = "netball_db.csv";
-		}
-		*/
-		
-//		Application.launch(MainWindow.class, args);
-
 		DatabaseReader reader = new DatabaseReader(playersFileName, teamsFileName, competitionsFileName);
 		System.out.println(reader.read() ? "import successful\n\n" : "import unsuccessful\n\n");
 		
@@ -42,10 +32,7 @@ public class MainClass {
 			
 		Scheduler scheduler = new Scheduler(players, teams, competitions);
 		scheduler.schedule();
-
-		for (Team t: teams) {
-			t.printSummary();
-		}
+		
 	}
 
 }

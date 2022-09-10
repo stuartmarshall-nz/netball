@@ -1,9 +1,9 @@
 package nz.ac.wgtn.srm.event;
 
 import nz.ac.wgtn.srm.organisation.*;
-import nz.ac.wgtn.srm.*;
 import java.time.*;
 import java.util.*;
+import java.io.*;
 
 public class Season extends Cycle {
 	
@@ -52,13 +52,7 @@ public class Season extends Cycle {
 
 		for (int round = 0; round < this.numRounds; round++) {
 			int[] toSchedule = this.createOrder(round, containsBye);
-/*			
-			System.out.print("To schedule: ");
-			for (int i = 0; i < toSchedule.length; i++) {
-				System.out.print(toSchedule[i] + ", ");
-			}
-			System.out.println();
-*/
+
 			Round nextRound = new Round(round + 1, date);
 			nextRound.schedule(this.teams, this.ladder, toSchedule, homeFirst);
 			this.rounds.add(nextRound);
@@ -77,10 +71,10 @@ public class Season extends Cycle {
 		return matches;
 	}
 	
-	public void print() {
-		System.out.println(getYear() + " Season\n===========");
-		this.ladder.print();
-		System.out.println("=====\n");
+	public void print(PrintStream out) {
+		out.println(getYear() + " Season\n===========");
+		this.ladder.print(out);
+		out.println("=====\n");
 	}
 
 }

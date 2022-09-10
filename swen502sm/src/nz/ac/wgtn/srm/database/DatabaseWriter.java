@@ -5,17 +5,20 @@ import java.io.*;
 import java.time.*;
 
 
-public class DatabaseWriter implements MatchListener {
+public class DatabaseWriter implements MatchListener, CompetitionListener {
 
 	private static DatabaseWriter instance;
 	private PrintStream matchesFile;
 	private PrintStream seasonsFile;
 	
 	private DatabaseWriter() {
-		File matchesFile = new File ("data/matches_" + LocalTime.now());
+		File matches = new File ("data/matches_" + LocalTime.now());
+		File seasons = new File ("data/seasons_" + LocalTime.now());
 		try {
-			matchesFile.createNewFile();
-			this.matchesFile = new PrintStream(matchesFile);
+			matches.createNewFile();
+			seasons.createNewFile();
+			this.matchesFile = new PrintStream(matches);
+			this.seasonsFile = new PrintStream(seasons);
 		} catch (IOException exp) {
 			exp.printStackTrace();
 		}
@@ -29,8 +32,13 @@ public class DatabaseWriter implements MatchListener {
 	}
 
 	@Override
-	public void notifyMatchResult(Match match) {
+	public void matchResultEvent(Match match) {
 		match.print(this.matchesFile);
+	}
+
+	@Override
+	public void competitionResultEvent(Cycle cycle) {
+		cycle.print(seasonsFile);
 	}
 	
 	

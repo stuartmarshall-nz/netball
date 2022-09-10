@@ -133,7 +133,7 @@ public abstract class Team implements MatchListener {
 		this.record.values().forEach(r -> r.print());
 	}
 	
-	public void notifyMatchResult(Match match) {
+	public void matchResultEvent(Match match) {
 		Team winningTeam = match.getWinningTeam();
 		Team losingTeam = match.getLosingTeam();
 		if (this.equals(winningTeam)) {

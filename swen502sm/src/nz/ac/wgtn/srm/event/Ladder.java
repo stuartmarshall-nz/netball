@@ -1,6 +1,7 @@
 package nz.ac.wgtn.srm.event;
 
 import java.util.*;
+import java.io.*;
 import nz.ac.wgtn.srm.organisation.*;
 
 public class Ladder implements MatchListener {
@@ -13,7 +14,7 @@ public class Ladder implements MatchListener {
 	}
 
 	@Override
-	public void notifyMatchResult(Match match) {
+	public void matchResultEvent(Match match) {
 		String homeTeam = match.getHome().getName();
 		String awayTeam = match.getAway().getName();
 		
@@ -25,12 +26,12 @@ public class Ladder implements MatchListener {
 		awayRow.addResult(!homeWin);
 	}
 
-	public void print() {
+	public void print(PrintStream out) {
 		List<LadderRow> sortedRows = new ArrayList<LadderRow>();
 		this.rows.values().forEach(r -> sortedRows.add(r));
 		Collections.sort(sortedRows);
 		Collections.reverse(sortedRows);
-		sortedRows.forEach(r -> r.print());
+		sortedRows.forEach(r -> r.print(out));
 	}
 	
 }

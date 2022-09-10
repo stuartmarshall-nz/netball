@@ -1,5 +1,7 @@
 package nz.ac.wgtn.srm.event;
 
+import java.io.*;
+
 public class LadderRow implements Comparable<LadderRow> {
 
 	private String team;
@@ -27,8 +29,8 @@ public class LadderRow implements Comparable<LadderRow> {
 		this.played++;
 	}
 	
-	public void print() {
-		System.out.println(this.team + ": " + this.played + "; " + this.wins + "; " + this.losses);
+	public void print(PrintStream out) {
+		out.println(this.team + ": " + this.played + "; " + this.wins + "; " + this.losses);
 	}
 	
 }

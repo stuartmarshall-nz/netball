@@ -13,6 +13,7 @@ public class Scheduler {
 	private Collection<Player> players;
 	private Collection<Team> teams;
 	private Collection<Competition> competitions;
+	private final int numYears = 3;
 	
 	public Scheduler(Collection<Player> players, Collection<Team> teams, Collection<Competition> competitions) {
 		this.players = players;
@@ -27,19 +28,19 @@ public class Scheduler {
 			t.selectSquad();
 		}
 			
-		d.newSeason(compTeams, 6);
-		d.newSeason(compTeams, 6);
-
-		for (int loop = 0; loop < d.getNumberCycles(); loop++) {
+		for (int loop = 0; loop < this.numYears; loop++) {
+			d.newSeason(compTeams, 6);
 			List<Match> matches = d.getMatches(loop + 1);
 			matches.forEach(m -> {
 				m.addMatchListener(MainWindow.getInstance());
 				m.addMatchListener(DatabaseWriter.getInstance());
+			});
+			matches.get(matches.size() - 1).addMatchListener(d);
+			matches.forEach(m -> {
 				m.simulate();
 			});
 		}
-		
-		d.print();
+
 
 	}
 	
@@ -59,6 +60,8 @@ public class Scheduler {
 	
 	public void schedule() {
 		this.competitions.forEach(c -> {
+			c.addListener(DatabaseWriter.getInstance());
+			c.addListener(MainWindow.getInstance());
 			if (c instanceof Domestic) {
 				handleDomestic((Domestic)c);
 			} else if (c instanceof International) {

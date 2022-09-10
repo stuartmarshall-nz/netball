@@ -1,6 +1,7 @@
 package nz.ac.wgtn.srm.event;
 
 import java.util.*;
+import java.io.*;
 import nz.ac.wgtn.srm.organisation.*;
 
 public abstract class Cycle {
@@ -50,6 +51,10 @@ public abstract class Cycle {
 	public void setChampion(Team champion) {
 		this.champion = champion;
 	}
+	
+	public abstract List<Match> getMatches();
+	
+	public abstract void print(PrintStream out);
 	
 
 }

@@ -37,7 +37,7 @@ public class Player implements MatchListener {
 		this.teams = new HashSet<Team>();
 	}
 	
-	public void notifyMatchResult(Match match) {
+	public void matchResultEvent(Match match) {
 		this.incrementMatches();
 		Team winningTeam = match.getWinningTeam();
 		if (this.teams.contains(winningTeam)) {
