@@ -83,10 +83,11 @@ public class MainWindow extends Application implements MatchListener, Competitio
 		Collection<Team> teams = reader.getTeams();
 		Collection<Competition> competitions = reader.getCompetitions();
 			
-		this.scheduler = new Scheduler(players, teams, competitions);
-	
+		this.scheduler = new Scheduler();
 		this.simulator = new MatchSimulator();
 		
+		this.scheduler.addMatchListener(this);
+		this.scheduler.addMatchListener(DatabaseWriter.getInstance());
 		this.simulator.addMatchListener(this);
 		this.simulator.addMatchListener(DatabaseWriter.getInstance());
 		

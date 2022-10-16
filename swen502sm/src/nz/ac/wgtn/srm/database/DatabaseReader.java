@@ -161,7 +161,7 @@ public class DatabaseReader {
 		
 		if (type.equals("Domestic")) {
 			String country = this.scanner.next();
-			c = new Domestic(competitionName, cycle, country);
+			c = new Domestic(competitionName, country, cycle, 6);
 		} else if (type.equals("International")) {
 			c = new International(competitionName, LocalDate.now().getYear(), cycle);
 		} else {

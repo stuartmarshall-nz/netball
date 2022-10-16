@@ -46,10 +46,12 @@ public abstract class Competition implements MatchListener {
 		this.listeners.add(listener);
 	}
 	
+	public abstract Cycle scheduleNewCycle();
+	
 	public abstract void print(PrintStream out);
 
-	public List<ScheduledMatch> getMatches(int cycle) {
-		cycle--;
+	public List<ScheduledMatch> getLatestMatches(int year) {
+		int cycle = year - this.started;
 		if ((cycle >= 0) && (cycle < this.cycles.size())) {
 			List<ScheduledMatch> matches = this.cycles.get(cycle).getMatches();
 			return matches;

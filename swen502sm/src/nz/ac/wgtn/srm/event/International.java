@@ -8,6 +8,10 @@ public class International extends Competition {
 		super(name, start, cycle);
 	}
 	
+	public Cycle scheduleNewCycle() {
+		return null;
+	}
+	
 	// TODO implement getNumberCycles for International Competitions
 	public int getNumberCycles() {
 		return 0;
