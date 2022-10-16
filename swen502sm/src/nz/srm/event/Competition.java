@@ -60,10 +60,10 @@ public abstract class Competition implements MatchListener {
 	
 	public abstract void print(PrintStream out);
 
-	public List<ScheduledMatch> getLatestMatches(int year) {
+	public List<MatchSchedule> getLatestMatches(int year) {
 		int cycle = year - this.started;
 		if ((cycle >= 0) && (cycle < this.cycles.size())) {
-			List<ScheduledMatch> matches = this.cycles.get(cycle).getMatches();
+			List<MatchSchedule> matches = this.cycles.get(cycle).getMatches();
 			return matches;
 		} else {
 			return null;
@@ -78,7 +78,7 @@ public abstract class Competition implements MatchListener {
 		}
 	}
 	
-	public void matchScheduledEvent(ScheduledMatch match) {
+	public void matchScheduledEvent(MatchSchedule match) {
 		return;
 	}
 

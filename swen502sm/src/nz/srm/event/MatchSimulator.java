@@ -12,7 +12,7 @@ public class MatchSimulator {
 		this.listeners = new ArrayList<MatchListener>();
 	}
 
-	public MatchResult simulate(ScheduledMatch match) {		
+	public MatchResult simulate(MatchSchedule match) {		
 		Team home = match.getHome();
 		Team away = match.getAway();
 		

@@ -10,16 +10,16 @@ import java.time.*;
 public class Round {
 
 	private int roundNum;
-	private List<ScheduledMatch> matches;
+	private List<MatchSchedule> matches;
 	private LocalDate date;
 	
 	public Round(int num, LocalDate date) {
 		this.roundNum = num;
 		this.date = date;
-		this.matches = new ArrayList<ScheduledMatch>();
+		this.matches = new ArrayList<MatchSchedule>();
 	}
 	
-	public List<ScheduledMatch> getMatches() {
+	public List<MatchSchedule> getMatches() {
 		return this.matches;
 	}
 	
@@ -34,11 +34,11 @@ public class Round {
 				Team t1 = teams.get(home);
 				Team t2 = teams.get(away);
 
-				ScheduledMatch match;
+				MatchSchedule match;
 				if (homeFirst) {
-					match = new ScheduledMatch(t1, t2, ladder, date);
+					match = new MatchSchedule(t1, t2, ladder, date);
 				} else {
-					match = new ScheduledMatch(t2, t1, ladder, date);
+					match = new MatchSchedule(t2, t1, ladder, date);
 				}
 				this.matches.add(match);
 			} 

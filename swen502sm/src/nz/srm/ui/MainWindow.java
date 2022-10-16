@@ -117,7 +117,7 @@ public class MainWindow extends Application implements MatchListener, Competitio
 	}
 
 	@Override
-	public void matchScheduledEvent(ScheduledMatch match) {
+	public void matchScheduledEvent(MatchSchedule match) {
 		System.out.println(match.toString());
 	}
 

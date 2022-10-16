@@ -9,14 +9,14 @@ import nz.srm.ui.*;
 public class MatchScheduler {
 
 	private List<MatchListener> listeners;
-	private List<ScheduledMatch> matches;
+	private List<MatchSchedule> matches;
 	
 	public MatchScheduler() {
 		this.listeners = new ArrayList<MatchListener>();
-		this.matches = new ArrayList<ScheduledMatch>();
+		this.matches = new ArrayList<MatchSchedule>();
 	}
 	
-	public ScheduledMatch getNextMatch() {
+	public MatchSchedule getNextMatch() {
 		return this.matches.remove(0);
 	}
 	
@@ -39,7 +39,7 @@ public class MatchScheduler {
 		this.listeners.add(listener);
 	}
 	
-	private void notifyMatchListeners(ScheduledMatch result) {
+	private void notifyMatchListeners(MatchSchedule result) {
 		this.listeners.forEach(l -> l.matchScheduledEvent(result));
 	}
 	

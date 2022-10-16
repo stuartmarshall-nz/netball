@@ -151,7 +151,7 @@ public abstract class Team {
 		}
 	}
 	
-	public void matchScheduledEvent(ScheduledMatch match) {
+	public void matchScheduledEvent(MatchSchedule match) {
 		
 	}
 	

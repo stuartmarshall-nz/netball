@@ -5,14 +5,14 @@ import java.time.LocalDate;
 
 import nz.srm.organisation.*;
 
-public class ScheduledMatch {
+public class MatchSchedule {
 
 	private LocalDate date;
 	private Team home;
 	private Team away;
 	private Ladder ladder;
 	
-	public ScheduledMatch(Team home, Team away, Ladder ladder, LocalDate date) {
+	public MatchSchedule(Team home, Team away, Ladder ladder, LocalDate date) {
 		this.home = home;
 		this.away = away;
 		this.date = date;

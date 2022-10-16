@@ -52,7 +52,7 @@ public class NetballSimulator {
 	}
 	
 	public void simulateNextMatch() {
-		ScheduledMatch match = this.scheduler.getNextMatch();
+		MatchSchedule match = this.scheduler.getNextMatch();
 		if (match != null) {
 			MatchResult result = this.simulator.simulate(match);
 			match.getLadder().addResult(result);

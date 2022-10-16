@@ -13,7 +13,7 @@ public abstract class Cycle {
 	private boolean scheduled;
 	private Team champion;
 	private List<Team> teams; 
-	private List<ScheduledMatch> matches;
+	private List<MatchSchedule> matches;
 	private Ladder ladder;
 	
 	protected Cycle(List<Team> teams, int year) {
@@ -22,7 +22,7 @@ public abstract class Cycle {
 		this.scheduled = false;
 		this.champion = null;
 		this.teams = teams;
-		this.matches = new ArrayList<ScheduledMatch>();
+		this.matches = new ArrayList<MatchSchedule>();
 		this.ladder = new Ladder(this.teams);
 	}
 	
@@ -62,7 +62,7 @@ public abstract class Cycle {
 		this.champion = champion;
 	}
 	
-	public void addMatches(List<ScheduledMatch> newMatches) {
+	public void addMatches(List<MatchSchedule> newMatches) {
 		this.matches.addAll(newMatches);
 	}
 	
@@ -70,7 +70,7 @@ public abstract class Cycle {
 		this.matches.clear();
 	}
 	
-	public List<ScheduledMatch> getMatches() {
+	public List<MatchSchedule> getMatches() {
 		return this.matches;
 	}
 	
