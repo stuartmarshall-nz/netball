@@ -1,14 +1,16 @@
 package nz.srm.player;
 
 import java.util.*;
+import java.time.*;
 
-import nz.srm.*;
-import nz.srm.event.*;
 import nz.srm.organisation.*;
 
 public class Player {
 
 	private String name;
+	private boolean pregnant;
+	private boolean injured;
+	private LocalDate unavailableTo;
 	private String country;
 	private int age;
 	private Skill skillLevel;
@@ -21,6 +23,9 @@ public class Player {
 		this.country = country;
 		this.age = age;
 		this.matches = 0;
+		this.pregnant = false;
+		this.injured = false;
+		this.unavailableTo = null;
 		this.skillLevel = Skill.ROOKIE;
 		this.confidenceLevel = Confidence.MEDIUM;
 		this.teams = new HashSet<Team>();
@@ -35,12 +40,31 @@ public class Player {
 		this.skillLevel = skillLevel;
 		this.confidenceLevel = confidenceLevel;
 		this.matches = matches;
+		this.pregnant = false;
+		this.injured = false;
+		this.unavailableTo = null;
 		this.teams = new HashSet<Team>();
+	}
+	
+	public boolean isPregnant() {
+		return this.pregnant;
+	}
+	
+	public boolean isInjured() {
+		return this.injured;
+	}
+	
+	public boolean isAvailable(LocalDate date) {
+		if (!pregnant && !injured) {
+			return true;
+		} else {
+			return this.unavailableTo.compareTo(date) <= 0;
+		}
 	}
 	
 	public void recordResult(boolean win) {
 		this.incrementMatches();
-		if (this.teams.contains(win)) {
+		if (win) {
 			if (Math.random() > 0.9) {
 				this.gainConfidence();
 			}

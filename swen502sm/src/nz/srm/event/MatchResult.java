@@ -35,8 +35,14 @@ public class MatchResult {
 		return awayScore;
 	}
 
+	public int getWinningScore() {
+		return Math.max(awayScore, homeScore);
+	}
 
-
+	public int getLosingScore() {
+		return Math.min(awayScore, homeScore);
+	}
+	
 	public boolean isHomeTeamWin() {
 		return this.homeScore > this.awayScore;
 	}
