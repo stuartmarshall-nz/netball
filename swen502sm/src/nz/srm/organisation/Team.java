@@ -7,7 +7,7 @@ import nz.srm.event.*;
 import nz.srm.player.*;
 import nz.srm.util.PlayerList;
 
-public abstract class Team implements MatchListener {
+public abstract class Team {
 
 	private String name;
 	private String location;
@@ -62,6 +62,7 @@ public abstract class Team implements MatchListener {
 			versus.incrementLosses();
 			this.losses++;
 		}
+		this.currentSquad.forEach(p -> p.recordResult(win));
 	}
 
 	public int getYearFormed() {
@@ -134,10 +135,10 @@ public abstract class Team implements MatchListener {
 		this.record.values().forEach(r -> r.print());
 	}
 	
-	public void matchResultEvent(MatchResult match) {
-		Team homeTeam = match.getHome();
-		Team awayTeam = match.getAway();
-		boolean homeWin = match.isHomeTeamWin();
+	public void recordResult(MatchResult result) {
+		Team homeTeam = result.getHome();
+		Team awayTeam = result.getAway();
+		boolean homeWin = result.isHomeTeamWin();
 		Team winningTeam = (homeWin) ? homeTeam: awayTeam;
 		Team losingTeam = (homeWin) ? awayTeam: homeTeam;
 		if (this.equals(winningTeam)) {

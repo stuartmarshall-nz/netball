@@ -16,9 +16,6 @@ public class MatchSimulator {
 		Team home = match.getHome();
 		Team away = match.getAway();
 		
-		this.listeners.add(home);
-		this.listeners.add(away);
-		
 		home.selectSquad();
 		away.selectSquad();
 

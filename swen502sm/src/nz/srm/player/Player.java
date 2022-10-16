@@ -38,11 +38,9 @@ public class Player {
 		this.teams = new HashSet<Team>();
 	}
 	
-	public void recordResult(MatchResult match) {
+	public void recordResult(boolean win) {
 		this.incrementMatches();
-		boolean homeTeamWin = match.isHomeTeamWin();
-		Team winningTeam = (homeTeamWin) ? match.getHome() : match.getAway();
-		if (this.teams.contains(winningTeam)) {
+		if (this.teams.contains(win)) {
 			if (Math.random() > 0.9) {
 				this.gainConfidence();
 			}

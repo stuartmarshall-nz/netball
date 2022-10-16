@@ -56,8 +56,8 @@ public class NetballSimulator {
 		if (match != null) {
 			MatchResult result = this.simulator.simulate(match);
 			match.getLadder().addResult(result);
-			match.getHome().getCurrentSquad().forEach(p -> p.recordResult(result));
-			match.getAway().getCurrentSquad().forEach(p -> p.recordResult(result));
+			match.getHome().recordResult(result);
+			match.getAway().recordResult(result);
 		}
 	}
 
