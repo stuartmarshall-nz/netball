@@ -1,39 +1,99 @@
 package nz.ac.wgtn.srm.ui;
 
-import nz.ac.wgtn.srm.database.DatabaseReader;
-import nz.ac.wgtn.srm.database.DatabaseWriter;
 import nz.ac.wgtn.srm.*;
 import nz.ac.wgtn.srm.event.*;
+
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
-
+import javafx.beans.value.*;
 import javafx.application.*;
 import javafx.scene.layout.*;
 import javafx.geometry.*;
+import javafx.collections.*;
 
 public class MainWindow extends Application implements MatchListener, CompetitionListener {
 
 	private NetballSimulator simulator;
+	private ObservableList<String> scheduledList;
+	private ObservableList<String> resultsList;
+	private ObservableList<String> playersList;
 
 	public void start(Stage stage) {
 		stage.setTitle("Netball Simulator");
+				
+		Pane root = new VBox();
 		
-		Button quitApp = new Button("Quit Application");
-		
-		quitApp.setOnAction(event -> {
-			System.out.println("Exiting Netball Simulator");
-			System.exit(0);
-		});
-		
-		Pane root = new FlowPane(Orientation.VERTICAL);
-		root.getChildren().add(quitApp);
-		
-		Scene scene = new Scene(root, 300, 300);
+		final HBox hbox = new HBox();
+        hbox.setAlignment(Pos.CENTER);
+        hbox.setSpacing(10);
+        hbox.setPadding(new Insets(0, 10, 0, 10));
+        hbox.getChildren().addAll(
+        		this.setupPlayerList(),
+        		this.setupMatchList());
+        
+		root.getChildren().addAll(this.setupMenu(), hbox);
+		Scene scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
-		
+
 		this.simulator = new NetballSimulator();
+	}
+	
+	public Pane setupPlayerList() {
+		
+		Pane playerPane = new VBox();
+		
+		Label playersLabel = new Label("Players");
+		
+		ListView<String> players = new ListView<String>();
+		players.setItems(this.playersList);
+		
+		playerPane.getChildren().addAll(playersLabel, players);
+		
+		return playerPane;
+		
+	}
+	
+	public Pane setupMatchList() {
+		
+		Label scheduledLabel = new Label("Matches Scheduled");
+		Label resultsLabel = new Label("Match Results");
+		
+		this.resultsList = FXCollections.observableArrayList();
+		this.scheduledList = FXCollections.observableArrayList();
+		
+		ListView<String> scheduled = new ListView<String>();
+		ListView<String> results = new ListView<String>();
+		
+		scheduled.setItems(this.scheduledList);
+		results.setItems(this.resultsList);
+		
+		Pane matchPane = new VBox();
+		
+		matchPane.getChildren().addAll(scheduledLabel, scheduled, resultsLabel, results);
+		
+		return matchPane;
+	}
+	
+	public MenuBar setupMenu() {
+		MenuBar bar = new MenuBar();
+		Menu file = new Menu("System");
+		
+		MenuItem loadPlayer = new MenuItem("Load Players");
+		MenuItem loadTeams = new MenuItem("Load Teams");
+		MenuItem loadComps = new MenuItem("Load Competitions");
+		MenuItem quit = new MenuItem("Quit");
+		quit.setOnAction(event -> {
+			System.out.println("Exiting Netball Simulator");
+			System.exit(0);			
+		});
+		
+		
+		bar.getMenus().addAll(file);
+		file.getItems().addAll(loadPlayer, loadTeams, loadComps, quit);
+		return bar;
+
 	}
 	
 	@Override

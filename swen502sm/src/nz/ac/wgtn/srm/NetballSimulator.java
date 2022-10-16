@@ -25,7 +25,7 @@ public class NetballSimulator {
 		String competitionsFileName = "data/competitions.csv";
 		
 		this.reader = new DatabaseReader(playersFileName, teamsFileName, competitionsFileName);
-		System.out.println(reader.read() ? "import successful\n\n" : "import unsuccessful\n\n");
+//		System.out.println(reader.read() ? "import successful\n\n" : "import unsuccessful\n\n");
 		
 		this.players = reader.getPlayers();
 		this.teams = reader.getTeams();
