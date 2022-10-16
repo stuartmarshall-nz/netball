@@ -63,8 +63,8 @@ public class Season extends Cycle {
 		
 	}
 	
-	public List<Match> getMatches() {
-		List<Match> matches = new ArrayList<Match>();
+	public List<ScheduledMatch> getMatches() {
+		List<ScheduledMatch> matches = new ArrayList<ScheduledMatch>();
 		for (Round r: this.rounds) {
 			matches.addAll(r.getMatches());
 		}

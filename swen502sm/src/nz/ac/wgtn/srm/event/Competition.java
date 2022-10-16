@@ -48,22 +48,26 @@ public abstract class Competition implements MatchListener {
 	
 	public abstract void print(PrintStream out);
 
-	public List<Match> getMatches(int cycle) {
+	public List<ScheduledMatch> getMatches(int cycle) {
 		cycle--;
 		if ((cycle >= 0) && (cycle < this.cycles.size())) {
-			List<Match> matches = this.cycles.get(cycle).getMatches();
+			List<ScheduledMatch> matches = this.cycles.get(cycle).getMatches();
 			return matches;
 		} else {
 			return null;
 		}
 	}
 	
-	public void matchResultEvent(Match match) {
+	public void matchResultEvent(MatchResult match) {
 		int numCycles = this.cycles.size();
 		if (numCycles > 0) {
 			Cycle c = this.cycles.get(numCycles - 1);
 			this.notifyCompetitionResult(c);
 		}
+	}
+	
+	public void matchScheduledEvent(ScheduledMatch match) {
+		return;
 	}
 
 	public int getNumberCycles() {

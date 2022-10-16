@@ -133,14 +133,21 @@ public abstract class Team implements MatchListener {
 		this.record.values().forEach(r -> r.print());
 	}
 	
-	public void matchResultEvent(Match match) {
-		Team winningTeam = match.getWinningTeam();
-		Team losingTeam = match.getLosingTeam();
+	public void matchResultEvent(MatchResult match) {
+		Team homeTeam = match.getHome();
+		Team awayTeam = match.getAway();
+		boolean homeWin = match.isHomeTeamWin();
+		Team winningTeam = (homeWin) ? homeTeam: awayTeam;
+		Team losingTeam = (homeWin) ? awayTeam: homeTeam;
 		if (this.equals(winningTeam)) {
 			this.recordResult(losingTeam.name, true);
 		} else {
 			this.recordResult(winningTeam.name, false);
 		}
+	}
+	
+	public void matchScheduledEvent(ScheduledMatch match) {
+		
 	}
 	
 	public boolean equals(Team t) {

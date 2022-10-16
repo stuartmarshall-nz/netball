@@ -55,7 +55,7 @@ public class DatabaseReader {
 	
 	private void readPlayers() throws FileNotFoundException {
 		this.scanner = new Scanner(this.playersFile);
-		this.scanner.useDelimiter(",|\n");
+		this.scanner.useDelimiter(",|" + System.getProperty("line.separator"));
 		while (scanner.hasNext()) {
 			Player p = this.readPlayer();
 			if (p != null) {
@@ -68,7 +68,7 @@ public class DatabaseReader {
 	
 	private void readTeams() throws FileNotFoundException {
 		this.scanner = new Scanner(this.teamsFile);
-		this.scanner.useDelimiter(",|\n");
+		this.scanner.useDelimiter(",|" + System.getProperty("line.separator"));
 		while (this.scanner.hasNext()) {
 			Team t = this.readTeam();
 			if (t != null) {
@@ -81,7 +81,7 @@ public class DatabaseReader {
 	
 	private void readCompetitions() throws FileNotFoundException {
 		this.scanner = new Scanner(this.competitionsFile);
-		this.scanner.useDelimiter(",|\n");
+		this.scanner.useDelimiter(",|" + System.getProperty("line.separator"));
 		while (this.scanner.hasNext()) {
 			Competition c = this.readCompetition();
 			this.competitions.add(c);
@@ -103,13 +103,13 @@ public class DatabaseReader {
 		
 		Skill skill = Skill.valueOf(skillStr);
 		Confidence confidence = Confidence.valueOf(confidenceStr);
-		
 		if (type.equals("Defender")) {
 			int intercepts = this.scanner.nextInt();
 			int rebounds = this.scanner.nextInt();
 			p = new Defender(name, country, age, skill, confidence, matches, intercepts, rebounds);
 		} else if (type.equals("Midcourter")) {
 			int intercepts = this.scanner.nextInt();
+			System.out.println(name + " " + intercepts);
 			int speed = this.scanner.nextInt();
 			p = new Midcourter(name, country, age, skill, confidence, matches, intercepts, speed);
 		} else if (type.equals("Attacker")) {

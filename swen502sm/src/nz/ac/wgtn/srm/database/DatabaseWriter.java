@@ -32,8 +32,13 @@ public class DatabaseWriter implements MatchListener, CompetitionListener {
 	}
 
 	@Override
-	public void matchResultEvent(Match match) {
-		match.print(this.matchesFile);
+	public void matchResultEvent(MatchResult match) {
+		this.matchesFile.print(match.toString());
+	}
+
+	@Override
+	public void matchScheduledEvent(ScheduledMatch match) {
+		this.matchesFile.print(match.toString());
 	}
 
 	@Override

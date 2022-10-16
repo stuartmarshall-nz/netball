@@ -7,21 +7,29 @@ import nz.ac.wgtn.srm.organisation.*;
 import nz.ac.wgtn.srm.player.*;
 import nz.ac.wgtn.srm.ui.*;
 import nz.ac.wgtn.srm.database.*;
+import javafx.collections.*;
 
 public class Scheduler {
 
 	private Collection<Player> players;
 	private Collection<Team> teams;
 	private Collection<Competition> competitions;
+	private List<MatchListener> listeners;
+	private ObservableList<ScheduledMatch> matches; 
 	private final int numYears = 3;
 	
 	public Scheduler(Collection<Player> players, Collection<Team> teams, Collection<Competition> competitions) {
 		this.players = players;
 		this.teams = teams;
 		this.competitions = competitions;
+		this.matches = FXCollections.observableArrayList();
+		this.listeners = new ArrayList<MatchListener>();
 	}
 	
-	private void handleDomestic(Domestic d) {
+	public void handleDomestic(Domestic d) {
+		d.addListener(DatabaseWriter.getInstance());
+		d.addListener(MainWindow.getInstance());
+		
 		List<Team> compTeams = d.getTeams();
 		
 		for (Team t: compTeams) {
@@ -30,21 +38,14 @@ public class Scheduler {
 			
 		for (int loop = 0; loop < this.numYears; loop++) {
 			d.newSeason(compTeams, 6);
-			List<Match> matches = d.getMatches(loop + 1);
-			matches.forEach(m -> {
-				m.addMatchListener(MainWindow.getInstance());
-				m.addMatchListener(DatabaseWriter.getInstance());
-			});
-			matches.get(matches.size() - 1).addMatchListener(d);
-			matches.forEach(m -> {
-				m.simulate();
-			});
+			List<ScheduledMatch> matches = d.getMatches(loop + 1);
 		}
-
-
 	}
 	
 	public void handleInternational(International i) {
+		i.addListener(DatabaseWriter.getInstance());
+		i.addListener(MainWindow.getInstance());
+
 		this.players.forEach(p -> {
 			this.teams.forEach(t -> {
 				boolean added = false;
@@ -58,16 +59,13 @@ public class Scheduler {
 		});
 	}
 	
-	public void schedule() {
-		this.competitions.forEach(c -> {
-			c.addListener(DatabaseWriter.getInstance());
-			c.addListener(MainWindow.getInstance());
-			if (c instanceof Domestic) {
-				handleDomestic((Domestic)c);
-			} else if (c instanceof International) {
-				handleInternational((International)c);
-			}
-		});
+	public void addMatchListener(MatchListener listener) {
+		this.listeners.add(listener);
 	}
+	
+	private void notifyMatchListeners(ScheduledMatch result) {
+		this.listeners.forEach(l -> l.matchScheduledEvent(result));
+	}
+	
 
 }

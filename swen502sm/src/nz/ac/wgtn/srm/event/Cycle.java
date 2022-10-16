@@ -52,7 +52,7 @@ public abstract class Cycle {
 		this.champion = champion;
 	}
 	
-	public abstract List<Match> getMatches();
+	public abstract List<ScheduledMatch> getMatches();
 	
 	public abstract void print(PrintStream out);
 	

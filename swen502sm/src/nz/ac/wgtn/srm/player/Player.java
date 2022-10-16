@@ -37,9 +37,10 @@ public class Player implements MatchListener {
 		this.teams = new HashSet<Team>();
 	}
 	
-	public void matchResultEvent(Match match) {
+	public void matchResultEvent(MatchResult match) {
 		this.incrementMatches();
-		Team winningTeam = match.getWinningTeam();
+		boolean homeTeamWin = match.isHomeTeamWin();
+		Team winningTeam = (homeTeamWin) ? match.getHome() : match.getAway();
 		if (this.teams.contains(winningTeam)) {
 			if (Math.random() > 0.9) {
 				this.gainConfidence();
@@ -49,6 +50,10 @@ public class Player implements MatchListener {
 				this.loseConfidence();
 			}
 		}
+	}
+	
+	public void matchScheduledEvent(ScheduledMatch match) {
+		return;
 	}
 	
 	public void addTeam(Team newTeam) {

@@ -14,7 +14,7 @@ public class Ladder implements MatchListener {
 	}
 
 	@Override
-	public void matchResultEvent(Match match) {
+	public void matchResultEvent(MatchResult match) {
 		String homeTeam = match.getHome().getName();
 		String awayTeam = match.getAway().getName();
 		
@@ -24,6 +24,11 @@ public class Ladder implements MatchListener {
 		boolean homeWin = match.isHomeTeamWin();
 		homeRow.addResult(homeWin);
 		awayRow.addResult(!homeWin);
+	}
+	
+	@Override
+	public void matchScheduledEvent(ScheduledMatch match) {
+		return;
 	}
 
 	public void print(PrintStream out) {

@@ -1,9 +1,17 @@
 package nz.ac.wgtn.srm.ui;
 
+import nz.ac.wgtn.srm.Scheduler;
+import nz.ac.wgtn.srm.database.DatabaseReader;
+import nz.ac.wgtn.srm.database.DatabaseWriter;
 import nz.ac.wgtn.srm.event.*;
+import nz.ac.wgtn.srm.organisation.Team;
+import nz.ac.wgtn.srm.player.Player;
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
+
+import java.util.Collection;
+
 import javafx.application.*;
 import javafx.scene.layout.*;
 import javafx.geometry.*;
@@ -11,6 +19,10 @@ import javafx.geometry.*;
 public class MainWindow extends Application implements MatchListener, CompetitionListener {
 
 	private static MainWindow instance;
+	private MatchSimulator simulator;
+	private DatabaseReader reader;
+	private Scheduler scheduler;
+	
 	
 	private MainWindow() {
 		System.out.println("Match Console:");
@@ -40,15 +52,44 @@ public class MainWindow extends Application implements MatchListener, Competitio
 		stage.setScene(scene);
 		stage.show();
 		
+		this.setup();
+		
 	}
 	
-	public void matchResultEvent(Match match) {
-		match.print(System.out);		
+	@Override
+	public void matchResultEvent(MatchResult match) {
+		System.out.println(match.toString());
+	}
+
+	@Override
+	public void matchScheduledEvent(ScheduledMatch match) {
+		System.out.println(match.toString());
 	}
 
 	@Override
 	public void competitionResultEvent(Cycle cycle) {
-		cycle.print(System.out);
+		System.out.println(cycle.toString());
+	}
+	
+	private void setup() {
+		String playersFileName = "data/players.csv";
+		String teamsFileName = "data/teams.csv";
+		String competitionsFileName = "data/competitions.csv";
+		
+		this.reader = new DatabaseReader(playersFileName, teamsFileName, competitionsFileName);
+		System.out.println(reader.read() ? "import successful\n\n" : "import unsuccessful\n\n");
+		
+		Collection<Player> players = reader.getPlayers();
+		Collection<Team> teams = reader.getTeams();
+		Collection<Competition> competitions = reader.getCompetitions();
+			
+		this.scheduler = new Scheduler(players, teams, competitions);
+	
+		this.simulator = new MatchSimulator();
+		
+		this.simulator.addMatchListener(this);
+		this.simulator.addMatchListener(DatabaseWriter.getInstance());
+		
 	}
 
 }
