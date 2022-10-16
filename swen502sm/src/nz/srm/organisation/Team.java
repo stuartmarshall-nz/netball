@@ -49,20 +49,23 @@ public abstract class Team {
 		this.location = location;
 	}
 
-	private void recordResult(String opposition, boolean win) {
+	private void recordResult(String opposition, int ownScore, int oppScore) {
 		VersusRecord versus = this.record.get(opposition);
 		if (versus == null) {
 			versus = new VersusRecord(this.name, opposition);
 			this.record.put(opposition, versus);
 		}
-		if (win) {
+		if (ownScore > oppScore) {
 			versus.incrementWins();
 			this.wins++;
 		} else {
 			versus.incrementLosses();
 			this.losses++;
 		}
-		this.currentSquad.forEach(p -> p.recordResult(win));
+		
+		float goalPercentage = ownScore / oppScore;
+		
+		this.currentSquad.forEach(p -> p.recordResult(goalPercentage));
 	}
 
 	public int getYearFormed() {
@@ -142,9 +145,9 @@ public abstract class Team {
 		Team winningTeam = (homeWin) ? homeTeam: awayTeam;
 		Team losingTeam = (homeWin) ? awayTeam: homeTeam;
 		if (this.equals(winningTeam)) {
-			this.recordResult(losingTeam.name, true);
+			this.recordResult(losingTeam.name, result.getWinningScore(), result.getLosingScore());
 		} else {
-			this.recordResult(winningTeam.name, false);
+			this.recordResult(winningTeam.name, result.getLosingScore(), result.getWinningScore());
 		}
 	}
 	

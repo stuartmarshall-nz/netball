@@ -62,15 +62,15 @@ public class Player {
 		}
 	}
 	
-	public void recordResult(boolean win) {
+	public void recordResult(float goalPercentage) {
 		this.incrementMatches();
-		if (win) {
-			if (Math.random() > 0.9) {
-				this.gainConfidence();
+		if (goalPercentage < 1) {
+			if (Math.random() > goalPercentage) {
+				this.loseConfidence();
 			}
 		} else {
-			if (Math.random() > 0.9) {
-				this.loseConfidence();
+			if (Math.random() > (1.0f / goalPercentage)) {
+				this.gainConfidence();
 			}
 		}
 	}
