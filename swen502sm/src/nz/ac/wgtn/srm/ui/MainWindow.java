@@ -60,10 +60,15 @@ public class MainWindow extends Application implements MatchListener, Competitio
 		
 		Label controlsLabel = new Label("Controls");
 		
+		Button addPlayer = new Button("Add Player");
 		Button schedule = new Button("Schedule");
 		Button simulate = new Button("Simulate");
 		
-		controls.getChildren().addAll(controlsLabel, schedule, simulate);
+		addPlayer.setOnAction(event -> {
+			new AddPlayerWindow();
+		});
+		
+		controls.getChildren().addAll(controlsLabel, addPlayer, schedule, simulate);
 		
 		return controls;
 	}
