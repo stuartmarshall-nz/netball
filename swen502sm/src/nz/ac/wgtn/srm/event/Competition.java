@@ -38,6 +38,14 @@ public abstract class Competition implements MatchListener {
 		this.teams.add(t);
 	}
 	
+	public void removeTeam(Team t) {
+		this.teams.remove(t);
+	}
+	
+	public void clearTeams() {
+		this.teams.clear();
+	}
+	
 	public int getYearStarted() {
 		return this.started;
 	}

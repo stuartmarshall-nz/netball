@@ -1,6 +1,5 @@
 package nz.ac.wgtn.srm.ui;
 
-import nz.ac.wgtn.srm.Scheduler;
 import nz.ac.wgtn.srm.database.DatabaseReader;
 import nz.ac.wgtn.srm.database.DatabaseWriter;
 import nz.ac.wgtn.srm.event.*;
@@ -21,7 +20,7 @@ public class MainWindow extends Application implements MatchListener, Competitio
 	private static MainWindow instance;
 	private MatchSimulator simulator;
 	private DatabaseReader reader;
-	private Scheduler scheduler;
+	private MatchScheduler scheduler;
 	
 	
 	private MainWindow() {
@@ -83,7 +82,7 @@ public class MainWindow extends Application implements MatchListener, Competitio
 		Collection<Team> teams = reader.getTeams();
 		Collection<Competition> competitions = reader.getCompetitions();
 			
-		this.scheduler = new Scheduler();
+		this.scheduler = new MatchScheduler();
 		this.simulator = new MatchSimulator();
 		
 		this.scheduler.addMatchListener(this);

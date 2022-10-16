@@ -20,18 +20,13 @@ public class ScheduledMatch {
 		return home;
 	}
 
-	public void setHome(Team home) {
-		this.home = home;
-	}
-
 	public Team getAway() {
 		return away;
 	}
 
-	public void setAway(Team away) {
-		this.away = away;
+	public LocalDate getDate() {
+		return this.date;
 	}
-
 	
 	public void print(PrintStream out) {
 		out.print("Month: " + this.date.getMonthValue() + ", ");

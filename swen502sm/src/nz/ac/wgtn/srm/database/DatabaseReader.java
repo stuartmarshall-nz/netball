@@ -125,29 +125,40 @@ public class DatabaseReader {
 	}
 	
 	private Team readTeam() {
-		Team t;
-		
 		String type = scanner.next();
 		String teamName = scanner.next();
-		int year = scanner.nextInt();
+		int startYear = scanner.nextInt();
 		
 		if (type.equals("International")) {
-			String nickname = scanner.next();
-			t = new InternationalTeam(teamName, nickname, year);
+			return this.readInternationalTeam(teamName, startYear);
 		} else if (type.equals("Domestic")) {
-			String location = scanner.next();
-			int numPlayers = scanner.nextInt();
-			t = new DomesticTeam(teamName, location, year);
-			for (int loop = 0; loop < numPlayers; loop++) {
-				String playerName = this.scanner.next();
-				Player p = this.players.get(playerName);
-				t.addPlayer(p);
-			}
+			return this.readDomesticTeam(teamName, startYear);
 		} else {
 			this.scanner.nextLine();
 			return null;
 		}
-		
+	}
+	
+	private Team readInternationalTeam(String teamName, int startYear) {
+		String nickname = scanner.next();
+		InternationalTeam t = new InternationalTeam(teamName, nickname, startYear);
+		for (Player p: this.players.values()) {
+			if (t.isValidPlayer(p)) {
+				t.addPlayer(p);
+			}
+		}
+		return t;
+	}
+	
+	private Team readDomesticTeam(String teamName, int startYear) {
+		String location = scanner.next();
+		int numPlayers = scanner.nextInt();
+		DomesticTeam t = new DomesticTeam(teamName, location, startYear);
+		for (int loop = 0; loop < numPlayers; loop++) {
+			String playerName = this.scanner.next();
+			Player p = this.players.get(playerName);
+			t.addPlayer(p);
+		}
 		return t;
 	}
 	

@@ -60,15 +60,11 @@ public class Season extends Cycle {
 			homeFirst = !homeFirst;
 			date = date.plusWeeks(1);
 		}
-		
-	}
-	
-	public List<ScheduledMatch> getMatches() {
-		List<ScheduledMatch> matches = new ArrayList<ScheduledMatch>();
+
 		for (Round r: this.rounds) {
-			matches.addAll(r.getMatches());
+			super.addMatches(r.getMatches());
 		}
-		return matches;
+		
 	}
 	
 	public void print(PrintStream out) {
