@@ -34,9 +34,9 @@ public class Round {
 
 				ScheduledMatch match;
 				if (homeFirst) {
-					match = new ScheduledMatch(t1, t2, date);
+					match = new ScheduledMatch(t1, t2, ladder, date);
 				} else {
-					match = new ScheduledMatch(t2, t1, date);
+					match = new ScheduledMatch(t2, t1, ladder, date);
 				}
 				this.matches.add(match);
 			} 

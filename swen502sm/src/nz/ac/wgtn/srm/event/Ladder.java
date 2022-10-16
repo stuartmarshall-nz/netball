@@ -4,7 +4,7 @@ import java.util.*;
 import java.io.*;
 import nz.ac.wgtn.srm.organisation.*;
 
-public class Ladder implements MatchListener {
+public class Ladder {
 
 	private Map<String, LadderRow> rows;
 	
@@ -13,7 +13,6 @@ public class Ladder implements MatchListener {
 		teams.forEach(t -> this.rows.put(t.getName(), new LadderRow(t.getName())));
 	}
 
-	@Override
 	public void matchResultEvent(MatchResult match) {
 		String homeTeam = match.getHome().getName();
 		String awayTeam = match.getAway().getName();
@@ -24,11 +23,6 @@ public class Ladder implements MatchListener {
 		boolean homeWin = match.isHomeTeamWin();
 		homeRow.addResult(homeWin);
 		awayRow.addResult(!homeWin);
-	}
-	
-	@Override
-	public void matchScheduledEvent(ScheduledMatch match) {
-		return;
 	}
 
 	public void print(PrintStream out) {

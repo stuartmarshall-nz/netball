@@ -9,19 +9,25 @@ public class ScheduledMatch {
 	private LocalDate date;
 	private Team home;
 	private Team away;
+	private Ladder ladder;
 	
-	public ScheduledMatch(Team home, Team away, LocalDate date) {
+	public ScheduledMatch(Team home, Team away, Ladder ladder, LocalDate date) {
 		this.home = home;
 		this.away = away;
 		this.date = date;
+		this.ladder = ladder;
 	}
 	
 	public Team getHome() {
-		return home;
+		return this.home;
 	}
 
 	public Team getAway() {
-		return away;
+		return this.away;
+	}
+	
+	public Ladder getLadder() {
+		return this.ladder;
 	}
 
 	public LocalDate getDate() {

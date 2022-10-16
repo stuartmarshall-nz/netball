@@ -12,7 +12,6 @@ public class Season extends Cycle {
 	
 	private List<Team> teams;
 	private List<Round> rounds;
-	private Ladder ladder;
 	
 	public Season(List<Team> teams, int year, int numRounds) {
 		super(teams, year);
@@ -20,7 +19,6 @@ public class Season extends Cycle {
 		this.rounds = new ArrayList<Round>();
 		this.numTeams = this.teams.size();
 		this.numRounds = numRounds;
-		this.ladder = new Ladder(this.teams);
 		this.schedule();
 	}
 
@@ -54,7 +52,7 @@ public class Season extends Cycle {
 			int[] toSchedule = this.createOrder(round, containsBye);
 
 			Round nextRound = new Round(round + 1, date);
-			nextRound.schedule(this.teams, this.ladder, toSchedule, homeFirst);
+			nextRound.schedule(this.teams, this.getLadder(), toSchedule, homeFirst);
 			this.rounds.add(nextRound);
 			
 			homeFirst = !homeFirst;
@@ -67,10 +65,4 @@ public class Season extends Cycle {
 		
 	}
 	
-	public void print(PrintStream out) {
-		out.println(getYear() + " Season\n===========");
-		this.ladder.print(out);
-		out.println("=====\n");
-	}
-
 }

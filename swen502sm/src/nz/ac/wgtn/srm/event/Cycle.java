@@ -12,6 +12,7 @@ public abstract class Cycle {
 	private Team champion;
 	private List<Team> teams; 
 	private List<ScheduledMatch> matches;
+	private Ladder ladder;
 	
 	protected Cycle(List<Team> teams, int year) {
 		this.year = year;
@@ -20,6 +21,7 @@ public abstract class Cycle {
 		this.champion = null;
 		this.teams = teams;
 		this.matches = new ArrayList<ScheduledMatch>();
+		this.ladder = new Ladder(this.teams);
 	}
 	
 	public boolean isCompleted() {
@@ -46,6 +48,10 @@ public abstract class Cycle {
 		return this.year;
 	}
 	
+	public Ladder getLadder() {
+		return this.ladder;
+	}
+	
 	public Team getChampion() {
 		return this.champion;
 	}
@@ -66,7 +72,11 @@ public abstract class Cycle {
 		return this.matches;
 	}
 	
-	public abstract void print(PrintStream out);
-	
+	public void print(PrintStream out) {
+		out.println(getYear() + " Season\n===========");
+		this.ladder.print(out);
+		out.println("=====\n");
+	}
 
 }
+	

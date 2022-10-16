@@ -41,6 +41,8 @@ public class MatchSimulator {
 		
 		MatchResult result = new MatchResult(home, away, homeScore, awayScore, overtimeResult);
 	
+		match.getLadder().matchResultEvent(result);
+		
 		this.notifyMatchListeners(result);
 				
 		return result;
