@@ -21,9 +21,6 @@ public class MatchSimulator {
 		home.selectSquad();
 		away.selectSquad();
 
-		home.getCurrentSquad().forEach(p -> this.listeners.add(p));
-		away.getCurrentSquad().forEach(p -> this.listeners.add(p));
-
 		int homeTeamImpact = home.currentSquadImpact();
 		int awayTeamImpact = away.currentSquadImpact();
 		

@@ -5,7 +5,7 @@ import nz.ac.wgtn.srm.event.*;
 import nz.ac.wgtn.srm.organisation.*;
 import java.util.*;
 
-public class Player implements MatchListener {
+public class Player {
 
 	private String name;
 	private String country;
@@ -37,7 +37,7 @@ public class Player implements MatchListener {
 		this.teams = new HashSet<Team>();
 	}
 	
-	public void matchResultEvent(MatchResult match) {
+	public void recordResult(MatchResult match) {
 		this.incrementMatches();
 		boolean homeTeamWin = match.isHomeTeamWin();
 		Team winningTeam = (homeTeamWin) ? match.getHome() : match.getAway();
@@ -50,10 +50,6 @@ public class Player implements MatchListener {
 				this.loseConfidence();
 			}
 		}
-	}
-	
-	public void matchScheduledEvent(ScheduledMatch match) {
-		return;
 	}
 	
 	public void addTeam(Team newTeam) {
