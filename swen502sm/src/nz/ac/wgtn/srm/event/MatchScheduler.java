@@ -32,8 +32,7 @@ public class MatchScheduler {
 	}
 	
 	public void handleInternational(International i) {
-		i.addListener(DatabaseWriter.getInstance());
-		i.addListener(MainWindow.getInstance());
+		return;
 	}
 	
 	public void addMatchListener(MatchListener listener) {

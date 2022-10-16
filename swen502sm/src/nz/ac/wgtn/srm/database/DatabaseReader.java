@@ -13,7 +13,7 @@ public class DatabaseReader {
 
 	private Map<String, Player> players;
 	private Map<String, Team> teams;
-	private Set<Competition> competitions;
+	private Map<String, Competition> competitions;
 	private File playersFile;
 	private File teamsFile;
 	private File competitionsFile;
@@ -22,7 +22,7 @@ public class DatabaseReader {
 	public DatabaseReader(String players, String teams, String competitions) {
 		this.players = new HashMap<String, Player>();
 		this.teams = new HashMap<String, Team>();
-		this.competitions = new HashSet<Competition>();
+		this.competitions = new HashMap<String, Competition>();
 		
 		this.playersFile = new File(players);
 		this.teamsFile = new File(teams);
@@ -41,15 +41,15 @@ public class DatabaseReader {
 		}
 	}
 	
-	public Collection<Player> getPlayers() {
-		return this.players.values();
+	public Map<String, Player> getPlayers() {
+		return this.players;
 	}
 	
-	public Collection<Team> getTeams() {
-		return this.teams.values();
+	public Map<String, Team> getTeams() {
+		return this.teams;
 	}
 	
-	public Collection<Competition> getCompetitions() {
+	public Map<String, Competition> getCompetitions() {
 		return this.competitions;
 	}
 	
@@ -84,7 +84,7 @@ public class DatabaseReader {
 		this.scanner.useDelimiter(",|" + System.getProperty("line.separator"));
 		while (this.scanner.hasNext()) {
 			Competition c = this.readCompetition();
-			this.competitions.add(c);
+			this.competitions.put(c.getName(), c);
 		}
 		this.scanner.close();
 		return;

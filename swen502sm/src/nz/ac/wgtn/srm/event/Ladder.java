@@ -13,7 +13,7 @@ public class Ladder {
 		teams.forEach(t -> this.rows.put(t.getName(), new LadderRow(t.getName())));
 	}
 
-	public void matchResultEvent(MatchResult match) {
+	public void addResult(MatchResult match) {
 		String homeTeam = match.getHome().getName();
 		String awayTeam = match.getAway().getName();
 		
