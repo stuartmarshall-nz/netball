@@ -6,7 +6,6 @@ import nz.ac.wgtn.srm.event.*;
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
-import javafx.beans.value.*;
 import javafx.application.*;
 import javafx.scene.layout.*;
 import javafx.geometry.*;
@@ -29,6 +28,7 @@ public class MainWindow extends Application implements MatchListener, Competitio
         hbox.setSpacing(10);
         hbox.setPadding(new Insets(0, 10, 0, 10));
         hbox.getChildren().addAll(
+        		this.setupControls(),
         		this.setupPlayerList(),
         		this.setupMatchList());
         
@@ -53,6 +53,19 @@ public class MainWindow extends Application implements MatchListener, Competitio
 		
 		return playerPane;
 		
+	}
+	
+	public Pane setupControls() {
+		Pane controls = new VBox();
+		
+		Label controlsLabel = new Label("Controls");
+		
+		Button schedule = new Button("Schedule");
+		Button simulate = new Button("Simulate");
+		
+		controls.getChildren().addAll(controlsLabel, schedule, simulate);
+		
+		return controls;
 	}
 	
 	public Pane setupMatchList() {
