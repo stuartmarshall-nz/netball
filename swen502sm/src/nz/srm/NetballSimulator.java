@@ -13,7 +13,7 @@ public class NetballSimulator {
 
 	private MatchSimulator simulator;
 	private DatabaseReader reader;
-	private MatchScheduler scheduler;
+	private MatchCentre scheduler;
 		
 	private Map<String, Player> players;
 	private Map<String, Team> teams;
@@ -31,7 +31,7 @@ public class NetballSimulator {
 		this.teams = reader.getTeams();
 		this.competitions = reader.getCompetitions();
 			
-		this.scheduler = new MatchScheduler();
+		this.scheduler = new MatchCentre();
 		this.simulator = new MatchSimulator();
 		
 	}
@@ -43,21 +43,24 @@ public class NetballSimulator {
 		}
 	}
 	
-	public void addNewPlayer() {
+	public void addNewPlayer(Player newPlayer) {
+		this.players.put(newPlayer.getName(), newPlayer);
 		return;
 	}
 
-	public void addNewTeam() {
+	public void addNewTeam(Team newTeam) {
+		this.teams.put(newTeam.getName(), newTeam);
 		return;
 	}
 	
 	public void simulateNextMatch() {
-		MatchSchedule match = this.scheduler.getNextMatch();
+		Match match = this.scheduler.getNextMatch();
 		if (match != null) {
-			MatchResult result = this.simulator.simulate(match);
-			match.getLadder().addResult(result);
-			match.getHome().recordResult(result);
-			match.getAway().recordResult(result);
+			MatchSchedule schedule = match.getMatchSchedule();
+			MatchResult result = this.simulator.simulate(match.getMatchSchedule());
+			schedule.getLadder().addResult(result);
+			schedule.getHome().recordResult(result);
+			schedule.getAway().recordResult(result);
 		}
 	}
 

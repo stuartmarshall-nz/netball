@@ -6,24 +6,31 @@ import nz.srm.database.*;
 import nz.srm.organisation.*;
 import nz.srm.ui.*;
 
-public class MatchScheduler {
+public class MatchCentre {
 
 	private List<MatchListener> listeners;
-	private List<MatchSchedule> matches;
+	private List<Match> matches;
 	
-	public MatchScheduler() {
+	public MatchCentre() {
 		this.listeners = new ArrayList<MatchListener>();
-		this.matches = new ArrayList<MatchSchedule>();
+		this.matches = new ArrayList<Match>();
 	}
 	
-	public MatchSchedule getNextMatch() {
-		return this.matches.remove(0);
+	public Match getNextMatch() {
+		if (this.matches.size() > 0) {
+			return this.matches.remove(0);
+		} else {
+			return null;
+		}
 	}
 	
 	public void scheduleCycle(Competition c) {
 		List<Team> compTeams = c.getTeams();
 		Cycle cycle = c.scheduleNewCycle();
-		this.matches.addAll(cycle.getMatches());
+		for (MatchSchedule s: cycle.getMatches()) {
+			Match match = this.generateMatch(s);
+			this.matches.add(match);
+		}
 		this.sort();
 	}
 	
@@ -41,6 +48,13 @@ public class MatchScheduler {
 	
 	private void notifyMatchListeners(MatchSchedule result) {
 		this.listeners.forEach(l -> l.matchScheduledEvent(result));
+	}
+	
+	private Match generateMatch(MatchSchedule schedule) {
+		Match match = new Match();
+		match.addListeners(this.listeners);
+		match.setSchedule(schedule);
+		return match;
 	}
 	
 
